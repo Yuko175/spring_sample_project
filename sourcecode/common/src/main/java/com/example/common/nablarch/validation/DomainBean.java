@@ -2,8 +2,10 @@ package com.example.common.nablarch.validation;
 
 import nablarch.common.code.validator.ee.CodeValue;
 import nablarch.core.validation.ee.Digits;
+import nablarch.core.validation.ee.Domain;
 import nablarch.core.validation.ee.Length;
 import nablarch.core.validation.ee.NumberRange;
+import nablarch.core.validation.ee.Required;
 import nablarch.core.validation.ee.SystemChar;
 
 /**
@@ -13,146 +15,157 @@ import nablarch.core.validation.ee.SystemChar;
  *
  */
 public class DomainBean {
-    /** 組織ID **/
-    @Digits(integer = 4, fraction = 0)
-    public String organizationId;
 
-    /** ログインID **/
-    @Length(max = 20)
-    @SystemChar(charsetDef = "半角数字")
-    public String loginId;
+  /** 組織ID **/
+  @Digits(integer = 4, fraction = 0)
+  public String organizationId;
 
-    /** アカウントパスワード **/
-    @Length(max = 64)
-    @SystemChar(charsetDef = "ASCII文字")
-    public String userPassword;
+  /** ログインID **/
+  @Length(max = 20)
+  @SystemChar(charsetDef = "半角数字")
+  public String loginId;
 
-    /** プロジェクトID **/
-    @Digits(integer = 9, fraction = 0)
-    public String projectId;
+  /** アカウントパスワード **/
+  @Length(max = 64)
+  @SystemChar(charsetDef = "ASCII文字")
+  public String userPassword;
 
-    /** プロジェクト名 **/
-    @Length(max = 128, message = "{domainType.projectName.message}")
-    @SystemChar(charsetDef = "全角文字", message = "{domainType.projectName.message}")
-    public String projectName;
+  /** プロジェクトID **/
+  @Digits(integer = 9, fraction = 0)
+  public String projectId;
 
-    /** プロジェクト種別 **/
-    @CodeValue(codeId = "C0300001", pattern = "PATTERN01")
-    public String projectType;
+  /** プロジェクト名 **/
+  @Length(max = 128, message = "{domainType.projectName.message}")
+  @SystemChar(
+    charsetDef = "全角文字",
+    message = "{domainType.projectName.message}"
+  )
+  public String projectName;
 
-    /** プロジェクト分類 **/
-    @CodeValue(codeId = "C0200001", pattern = "PATTERN01")
-    public String projectClass;
+  /** プロジェクト種別 **/
+  @CodeValue(codeId = "C0300001", pattern = "PATTERN01")
+  public String projectType;
 
-    /** 顧客ID **/
-    @Digits(integer = 9, fraction = 0)
-    public String clientId;
+  /** プロジェクト分類 **/
+  @CodeValue(codeId = "C0200001", pattern = "PATTERN01")
+  public String projectClass;
 
-    /** ユーザ氏名（漢字） **/
-    @Length(max = 128, message = "{domainType.userName.message}")
-    @SystemChar(charsetDef = "全角文字", message = "{domainType.userName.message}")
-    public String userName;
+  /** 顧客ID **/
+  @Digits(integer = 9, fraction = 0)
+  public String clientId;
 
-    /** 備考 **/
-    @Length(max = 512, message = "{domainType.note.message}")
-    @SystemChar(charsetDef = "システム許容文字", allowLineSeparator = true, message = "{domainType.note.message}")
-    public String note;
+  /** ユーザ氏名（漢字） **/
+  @Length(max = 128, message = "{domainType.userName.message}")
+  @SystemChar(
+    charsetDef = "全角文字",
+    message = "{domainType.userName.message}"
+  )
+  public String userName;
 
-    /** 金額 **/
-    @MoneyRange(min = 0, max = 999999999)
-    public Integer amountOfMoney;
+  /** 備考 **/
+  @Length(max = 512, message = "{domainType.note.message}")
+  @SystemChar(
+    charsetDef = "システム許容文字",
+    allowLineSeparator = true,
+    message = "{domainType.note.message}"
+  )
+  public String note;
 
-    /** ページ番号 **/
-    @NumberRange(min = 0, max = 9999)
-    public String pageNumber;
+  /** 金額 **/
+  @MoneyRange(min = 0, max = 999999999)
+  public Integer amountOfMoney;
 
-    /** ユーザID **/
-    @NumberRange(max = 999999999)
-    public String userId;
+  /** ページ番号 **/
+  @NumberRange(min = 0, max = 9999)
+  public String pageNumber;
 
-    /** 組織名 **/
-    @Length(max = 128)
-    @SystemChar(charsetDef = "全角文字")
-    public String organizationName;
+  /** ユーザID **/
+  @NumberRange(max = 999999999)
+  public String userId;
 
-    /** ユーザ氏名（ふりがな） **/
-    @Length(max = 128)
-    @SystemChar(charsetDef = "全角文字")
-    public String kanaNme;
+  /** 組織名 **/
+  @Length(max = 128)
+  @SystemChar(charsetDef = "全角文字")
+  public String organizationName;
 
-    /** バージョン番号 **/
-    @NumberRange(max = 9999)
-    public String versionNo;
+  /** ユーザ氏名（ふりがな） **/
+  @Length(max = 128)
+  @SystemChar(charsetDef = "全角文字")
+  public String kanaNme;
 
-    /** 認証失敗回数 **/
-    @SystemChar(charsetDef = "半角数字")
-    public String failedCount;
+  /** バージョン番号 **/
+  @NumberRange(max = 9999)
+  public String versionNo;
 
-    /** フラグ **/
-    @Length(min = 1, max = 1)
-    @SystemChar(charsetDef = "半角数字")
-    public String flag;
+  /** 認証失敗回数 **/
+  @SystemChar(charsetDef = "半角数字")
+  public String failedCount;
 
-    /** コードID **/
-    @Length(max = 8)
-    @SystemChar(charsetDef = "半角英数字")
-    public String codeId;
+  /** フラグ **/
+  @Length(min = 1, max = 1)
+  @SystemChar(charsetDef = "半角数字")
+  public String flag;
 
-    /** コード値 **/
-    @Length(max = 2)
-    @SystemChar(charsetDef = "半角英数字")
-    public String codeValue;
+  /** コードID **/
+  @Length(max = 8)
+  @SystemChar(charsetDef = "半角英数字")
+  public String codeId;
 
-    /** コード名称 **/
-    @Length(max = 50)
-    @SystemChar(charsetDef = "システム許容文字")
-    public String codeName;
+  /** コード値 **/
+  @Length(max = 2)
+  @SystemChar(charsetDef = "半角英数字")
+  public String codeValue;
 
-    /** オプション名称 **/
-    @Length(max = 40)
-    @SystemChar(charsetDef = "システム許容文字")
-    public String option;
+  /** コード名称 **/
+  @Length(max = 50)
+  @SystemChar(charsetDef = "システム許容文字")
+  public String codeName;
 
-    /** コードパターン **/
-    @Length(min = 1, max = 1)
-    @SystemChar(charsetDef = "半角英数字")
-    public String pattern;
+  /** オプション名称 **/
+  @Length(max = 40)
+  @SystemChar(charsetDef = "システム許容文字")
+  public String option;
 
-    /** ソート順 **/
-    @Length(min = 1, max = 1)
-    @SystemChar(charsetDef = "半角数字")
-    public String sortOrder;
+  /** コードパターン **/
+  @Length(min = 1, max = 1)
+  @SystemChar(charsetDef = "半角英数字")
+  public String pattern;
 
-    /** 言語 **/
-    @Length(max = 2)
-    @SystemChar(charsetDef = "半角英字")
-    public String lang;
+  /** ソート順 **/
+  @Length(min = 1, max = 1)
+  @SystemChar(charsetDef = "半角数字")
+  public String sortOrder;
 
-    /** コード略称 **/
-    @Length(max = 50)
-    @SystemChar(charsetDef = "システム許容文字")
-    public String shortName;
+  /** 言語 **/
+  @Length(max = 2)
+  @SystemChar(charsetDef = "半角英字")
+  public String lang;
 
-    /** 業務日付区分 **/
-    @Length(min = 2, max = 2)
-    @SystemChar(charsetDef = "半角英数字")
-    public String segmentId;
+  /** コード略称 **/
+  @Length(max = 50)
+  @SystemChar(charsetDef = "システム許容文字")
+  public String shortName;
 
-    /** 業務日付 **/
-    @Length(min = 8, max = 8)
-    @SystemChar(charsetDef = "半角数字")
-    public String bizDate;
+  /** 業務日付区分 **/
+  @Length(min = 2, max = 2)
+  @SystemChar(charsetDef = "半角英数字")
+  public String segmentId;
 
-    /** 一時ファイルID **/
-    @SystemChar(charsetDef = "ASCII文字")
-    public String tempFileId;
+  /** 業務日付 **/
+  @Length(min = 8, max = 8)
+  @SystemChar(charsetDef = "半角数字")
+  public String bizDate;
 
-    /** 顧客名 **/
-    @Length(max = 128)
-    @SystemChar(charsetDef = "全角文字")
-    public String clientName;
+  /** 一時ファイルID **/
+  @SystemChar(charsetDef = "ASCII文字")
+  public String tempFileId;
 
-    /** 業種コード **/
-    @CodeValue(codeId = "C0100001")
-    public String industryCode;
+  /** 顧客名 **/
+  @Length(max = 128)
+  @SystemChar(charsetDef = "全角文字")
+  public String clientName;
+
+  /** 業種コード **/
+  @CodeValue(codeId = "C0100001")
+  public String industryCode;
 }
