@@ -9,27 +9,12 @@
     <script src="../../static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script src="../../static/js/common.js" th:src="@{/js/common.js}"></script>
     <title>四則演算</title>
-    <script>
-      //ボタンの挙動
-      function shisokuClearForm() {
-        // 入力フォームをクリアする
-        document.getElementById("shisokuForm").action = "/sample/shisoku";
-        document.getElementById("shisokuForm").submit();
-      }
-      function shisokuCalculate() {
-        // 計算する
-        document.getElementById("shisokuForm").action = "/sample/shisoku/ans";
-        document.getElementById("shisokuForm").submit();
-      }
-      function backMenu() {
-        // メニューに戻る
-        window.location.href = "/sample";
-      }
-    </script>
   </head>
   <body>
+    <a href="/sample">
+      <input class="btn" type="button" value="　＜ 戻る　" />
+    </a>
     <form id="shisokuForm" method="POST" th:action="@{/sample/shisoku}" th:object="${shisokuForm}">
-      <input class="btn" type="button" value="　＜ 戻る　" onclick="backMenu()" />
       <div class="row justify-content-center">
         <div class="col-auto text-center">
           <br />
@@ -43,8 +28,8 @@
           <br />
           <br />
           <br />
-          <input class="btn btn-primary" type="button" value="　計算　" onclick="shisokuCalculate()" />
-          <input class="btn btn-danger" type="button" value="　クリア　" onclick="shisokuClearForm()" /><br />
+          <input class="btn btn-primary" type="submit" value="　計算　" name="calc" />
+          <input class="btn btn-danger" type="submit" value="　クリア　" name="clear" /><br />
           <br />
           <div id="resultFrame" th:if="${not #strings.isEmpty(wa)}" class="text-center col">
             <table th:if="${not #strings.isEmpty(wa)}" class="table text-center">

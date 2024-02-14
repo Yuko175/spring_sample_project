@@ -15,8 +15,4 @@ public class SampleController {
     return "sample/index";
   }
 
-  @PostMapping
-  public String indexBack(Model model) {
-    return "sample/index";
-  }
 }

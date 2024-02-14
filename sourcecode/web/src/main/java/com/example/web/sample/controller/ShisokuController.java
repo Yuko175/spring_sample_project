@@ -30,7 +30,7 @@ public class ShisokuController {
     return "sample/shisoku";
   }
 
-  @PostMapping
+  @PostMapping(path = "",params ="clear")
   public String shisokuClear(Model model) {
     ShisokuForm shisokuForm = new ShisokuForm();
 
@@ -43,31 +43,28 @@ public class ShisokuController {
     return "sample/shisoku";
   }
 
-  @PostMapping("/ans")
+  @PostMapping(path = "",params ="calc")
   @OnRejectError(path = "sample/shisoku")
   public String confirm(
-    @Validated ShisokuForm form,
-    BindingResult bindingResult,
-    Model model
-  ) {
-    //BigDecimalに変換
+      @Validated ShisokuForm form,
+      BindingResult bindingResult,
+      Model model) {
+    // BigDecimalに変換
     BigDecimal number1 = new BigDecimal(form.getNumber1().toString());
     BigDecimal number2 = new BigDecimal(form.getNumber2().toString());
 
-    //計算
+    // 計算
     BigDecimal wa = number1.add(number2);
     BigDecimal sa = number1.subtract(number2);
     BigDecimal seki = number1.multiply(number2);
-    //number1またはnumber2が0の時、割り算の計算は "N/A" 表記にする
-    if (
-      number1.compareTo(BigDecimal.ZERO) == 0 ||
-      number2.compareTo(BigDecimal.ZERO) == 0
-    ) {
+    // number1またはnumber2が0の時、割り算の計算は "N/A" 表記にする
+    if (number1.compareTo(BigDecimal.ZERO) == 0 ||
+        number2.compareTo(BigDecimal.ZERO) == 0) {
       model.addAttribute("shou", "N/A");
     } else {
-      //計算
+      // 計算
       BigDecimal shou = number1.divide(number2, 10, RoundingMode.DOWN);
-      //計算結果を定義に詰める(余分な0は省き、指数表記にならないようにする)
+      // 計算結果を定義に詰める(余分な0は省き、指数表記にならないようにする)
       model.addAttribute("shou", shou.stripTrailingZeros().toPlainString());
     }
 
@@ -75,7 +72,7 @@ public class ShisokuController {
     model.addAttribute("sa", sa.stripTrailingZeros().toPlainString());
     model.addAttribute("seki", seki.stripTrailingZeros().toPlainString());
 
-    //print
+    // print
     System.out.println("number1:" + number1);
     System.out.println("number2:" + number2);
 

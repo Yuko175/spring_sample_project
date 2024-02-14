@@ -41,7 +41,7 @@ public class BmiController {
     return "sample/bmi";
   }
 
-  @PostMapping
+  @PostMapping(path = "", params = "clear")
   public String bmiClear(Model model) {
     BmiForm bmiForm = new BmiForm();
 
@@ -54,17 +54,15 @@ public class BmiController {
     return "sample/bmi";
   }
 
-  @PostMapping("/ans")
+  @PostMapping(path = "", params = "calc")
   @OnRejectError(path = "sample/bmi")
   public String confirm(
-    @Validated BmiForm form,
-    BindingResult bindingResult,
-    Model model
-  ) {
+      @Validated BmiForm form,
+      BindingResult bindingResult,
+      Model model) {
     model.addAttribute(
-      "bmiResult",
-      bmiService.calcBmi(form.getHeight(), form.getWeight())
-    );
+        "bmiResult",
+        bmiService.calcBmi(form.getHeight(), form.getWeight()));
 
     return "sample/bmi";
   }

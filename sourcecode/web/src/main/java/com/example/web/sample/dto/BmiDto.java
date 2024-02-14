@@ -1,38 +1,43 @@
 package com.example.web.sample.dto;
 
+import java.math.BigDecimal;
+
 public class BmiDto {
 
-  private String adequateWeight;
-  private String comparison;
-  private String bmi;
+  private BigDecimal adequateWeight;
+  private BigDecimal comparison;
+  private BigDecimal bmi;
 
-  public BmiDto(String adequateWeight, String comparison, String bmi) {
+  public BmiDto(
+      BigDecimal adequateWeight,
+      BigDecimal comparison,
+      BigDecimal bmi) {
     this.adequateWeight = adequateWeight;
     this.comparison = comparison;
     this.bmi = bmi;
   }
 
-  public String getAdequateWeight() {
+  public BigDecimal getAdequateWeight() {
     return adequateWeight;
   }
 
-  public void setAdequateWeight(String adequateWeight) {
+  public void setAdequateWeight(BigDecimal adequateWeight) {
     this.adequateWeight = adequateWeight;
   }
 
-  public String getComparison() {
+  public BigDecimal getComparison() {
     return comparison;
   }
 
-  public void setComparison(String comparison) {
+  public void setComparison(BigDecimal comparison) {
     this.comparison = comparison;
   }
 
-  public String getBmi() {
+  public BigDecimal getBmi() {
     return bmi;
   }
 
-  public void setBmi(String bmi) {
+  public void setBmi(BigDecimal bmi) {
     this.bmi = bmi;
   }
 }
