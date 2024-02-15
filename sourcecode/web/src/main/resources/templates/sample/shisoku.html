@@ -31,27 +31,27 @@
           <input class="btn btn-primary" type="submit" value="　計算　" name="calc" />
           <input class="btn btn-danger" type="submit" value="　クリア　" name="clear" /><br />
           <br />
-          <div id="resultFrame" th:if="${not #strings.isEmpty(wa)}" class="text-center col">
-            <table th:if="${not #strings.isEmpty(wa)}" class="table text-center">
+          <div id="resultFrame" th:if="${not #strings.isEmpty(shisokuResult)}" class="text-center col">
+            <table th:if="${not #strings.isEmpty(shisokuResult)}" class="table text-center">
               <tr>
                 <th>足し算：</th>
                 <td><text th:text="*{number1}" />　+　<text th:text="*{number2}" />　=</td>
-                <td><text th:text="${wa}" /></td>
+                <td><text th:text="${shisokuResult.wa}" /></td>
               </tr>
               <tr>
                 <th>引き算：</th>
                 <td><text th:text="*{number1}" />　-　<text th:text="*{number2}" />　=</td>
-                <td><text th:text="${sa}" /></td>
+                <td><text th:text="${shisokuResult.sa}" /></td>
               </tr>
               <tr>
                 <th>掛け算：</th>
                 <td><text th:text="*{number1}" />　×　<text th:text="*{number2}" />　=</td>
-                <td><text th:text="${seki}" /></td>
+                <td><text th:text="${shisokuResult.seki}" /></td>
               </tr>
               <tr>
                 <th>割り算：</th>
                 <td><text th:text="*{number1}" />　÷　<text th:text="*{number2}" />　=</td>
-                <td><text th:text="${shou}" /></td>
+                <td><text th:text="${shisokuResult.shou}" /></td>
               </tr>
             </table>
           </div>

@@ -30,27 +30,13 @@ public class BmiController {
 
   @GetMapping
   public String bmi(Model model) {
-    BmiForm bmiForm = new BmiForm();
-
-    // 最初に訪れた時のみ、nullにし、それを許容
-    if (!model.containsAttribute("bmiForm")) {
-      bmiForm.setHeight(null);
-      bmiForm.setWeight(null);
-    }
-    model.addAttribute("bmiForm", bmiForm);
+    model.addAttribute("bmiForm", new BmiForm());
     return "sample/bmi";
   }
 
   @PostMapping(path = "", params = "clear")
   public String bmiClear(Model model) {
-    BmiForm bmiForm = new BmiForm();
-
-    // 最初に訪れた時のみ、nullにし、それを許容
-    if (!model.containsAttribute("bmiForm")) {
-      bmiForm.setHeight(null);
-      bmiForm.setWeight(null);
-    }
-    model.addAttribute("bmiForm", bmiForm);
+    model.addAttribute("bmiForm", new BmiForm());
     return "sample/bmi";
   }
 
@@ -60,7 +46,7 @@ public class BmiController {
       @Validated BmiForm form,
       BindingResult bindingResult,
       Model model) {
-    model.addAttribute(
+      model.addAttribute(
         "bmiResult",
         bmiService.calcBmi(form.getHeight(), form.getWeight()));
 
