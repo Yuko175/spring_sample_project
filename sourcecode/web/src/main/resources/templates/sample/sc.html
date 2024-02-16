@@ -25,17 +25,18 @@
           <label style="font-size: 120%; border: 1px" for="reiwa">令和</label>
           <input type="radio" id="genngou" th:field="*{genngou}" name="genngou" value="平成" />
           <label style="font-size: 120%; border: 1px" for="heisei">平成</label><br />
-          <div th:if="${#fields.hasErrors('genngou')}" th:errors="*{genngou}"></div>
+          <div class="fw-bold text-danger" th:if="${#fields.hasErrors('genngou')}" th:errors="*{genngou}"></div>
           <br />
           <input type="text" id="year" th:field="*{year}" style="text-align: center" />　年<br />
-          <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+          <div class="fw-bold text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
           <br />
           <select name="season" th:field="*{season} " style="font-size: 120%; border: 1px">
             <option value="" disabled selected>選択してください</option>
             <option value="春期" th:text="春期"></option>
             <option value="秋期" th:text="秋期"></option>
           </select>
-          <div th:if="${#fields.hasErrors('season')}" th:errors="*{season}"></div>
+
+          <div class="fw-bold text-danger" th:if="${#fields.hasErrors('season')}" th:errors="*{season}"></div>
 
           <br />
           <br />
@@ -44,9 +45,10 @@
           <input class="btn btn-danger" type="submit" value="　クリア　" name="clear" /><br />
           <br />
           <br />
+          <div class="fw-bold text-danger fs-4" th:if="${#fields.hasErrors('validReiwa')}" th:errors="*{validReiwa}"></div>
+          <div class="fw-bold text-danger fs-4" th:if="${#fields.hasErrors('validHeisei')}" th:errors="*{validHeisei}"></div>
 
           <div id="resultFrame" th:if="${not #strings.isEmpty(scResult)}" class="text-center col">
-            <!-- TODO:直接Formの文字列を代入している。気になる。 -->
             <h5 th:text="*{genngou} +' '+ *{year} +'年' +' '+ *{season}"></h5>
             <p>
               <th:block th:if="${not #strings.isEmpty(scResult)}">
@@ -54,8 +56,6 @@
                 <a th:href="${scResult.gogo1_2}" target="_blank" th:text="午後1-2"></a>　：　<text th:text="${scResult.gogo1_2}" /><br />
                 <a th:href="${scResult.gogo1_3}" target="_blank" th:text="午後1-3"></a>　：　<text th:text="${scResult.gogo1_3}" /><br />
               </th:block>
-
-              <!-- TODO:うまく書けない -->
 
               <!-- 令和5年用：2-2がnullの時に、(2-1を)1-4として表示する -->
               <th:block th:if="${#strings.isEmpty(scResult.gogo2_2)}">
@@ -70,8 +70,6 @@
               <br />
               <th:block th:if="${not #strings.isEmpty(scResult)}">
                 <a th:href="${scResult.saitenn}" target="_blank" th:text="採点講評"></a>　：　<text th:text="${scResult.saitenn}" />
-                <!-- 令和元年秋の時のみ、メッセージを表示 -->
-                <p th:if="*{genngou == '令和'} and *{year == '1'} and *{season == '秋期'}">※ 採点講評は下までスクロールしてください。</p>
               </th:block>
             </p>
           </div>
