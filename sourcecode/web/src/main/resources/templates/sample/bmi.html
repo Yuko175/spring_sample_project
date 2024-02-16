@@ -56,47 +56,47 @@
                   <!-- 表を記述 -->
                   <tr th:class="${lowWeight} ? 'text-danger border-danger h6' : ''">
                     <td>低体重(~18.4)</td>
-                    <td><text th:text="${lowWeight ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
-                    <td><text th:text="${lowWeight ? bmiResult.comparison + ' kg' : ''}" /></td>
-                    <td><text th:text="${lowWeight ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${lowWeight ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${lowWeight ? bmiResult.comparison.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${lowWeight ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
 
                   <tr th:class="${normalWeight} ? 'text-danger border-danger h6' : ''">
                     <td>普通体重(18.5~25)</td>
-                    <td><text th:text="${normalWeight ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
+                    <td><text th:text="${normalWeight ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
                     <td>
-                      <text th:text="${bmiResult.comparison > 0 && normalWeight ? ' + ' + bmiResult.comparison + ' kg' : ''}" />
-                      <text th:text="${!(bmiResult.comparison > 0) && normalWeight ? bmiResult.comparison + ' kg' : ''}" />
+                      <text th:text="${bmiResult.comparison > 0 && normalWeight ? ' + ' + bmiResult.comparison.toPlainString() + ' kg' : ''}" />
+                      <text th:text="${!(bmiResult.comparison > 0) && normalWeight ? bmiResult.comparison.toPlainString() + ' kg' : ''}" />
                     </td>
-                    <td><text th:text="${normalWeight ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${normalWeight ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
 
                   <tr th:class="${obesity1} ? 'text-danger border-danger h6' : ''">
                     <td>肥満１(25~30)</td>
-                    <td><text th:text="${obesity1 ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity1 ? ' + ' + bmiResult.comparison + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity1 ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${obesity1 ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity1 ? ' + ' + bmiResult.comparison.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity1 ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
 
                   <tr th:class="${obesity2} ? 'text-danger border-danger h6' : ''">
                     <td>肥満２(30~35)</td>
-                    <td><text th:text="${obesity2 ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity2 ? ' + ' + bmiResult.comparison + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity2 ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${obesity2 ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity2 ? ' + ' + bmiResult.comparison.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity2 ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
 
                   <tr th:class="${obesity3} ? 'text-danger border-danger h6' : ''">
                     <td>肥満３(35~40)</td>
-                    <td><text th:text="${obesity3 ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity3 ? ' + ' + bmiResult.comparison + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity3 ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${obesity3 ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity3 ? ' + ' + bmiResult.comparison.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity3 ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
 
                   <tr th:class="${obesity4} ? 'text-danger border-danger h6' : ''">
                     <td>肥満４(40~)</td>
-                    <td><text th:text="${obesity4 ? bmiResult.adequateWeight + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity4 ? ' + ' + bmiResult.comparison + ' kg' : ''}" /></td>
-                    <td><text th:text="${obesity4 ? bmiResult.bmi : ''}" /></td>
+                    <td><text th:text="${obesity4 ? bmiResult.adequateWeight.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity4 ? ' + ' + bmiResult.comparison.toPlainString() + ' kg' : ''}" /></td>
+                    <td><text th:text="${obesity4 ? bmiResult.bmi.toPlainString() : ''}" /></td>
                   </tr>
                 </th:block>
               </th:block>

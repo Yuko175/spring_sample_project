@@ -1,6 +1,5 @@
 package com.example.web.sample.service;
 
-import com.example.web.sample.dto.BmiDto;
 import com.example.web.sample.dto.ShisokuDto;
 
 import java.math.BigDecimal;

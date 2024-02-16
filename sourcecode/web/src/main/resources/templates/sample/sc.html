@@ -71,7 +71,7 @@
               <th:block th:if="${not #strings.isEmpty(scResult)}">
                 <a th:href="${scResult.saitenn}" target="_blank" th:text="採点講評"></a>　：　<text th:text="${scResult.saitenn}" />
                 <!-- 令和元年秋の時のみ、メッセージを表示 -->
-                <p th:if="*{genngou == '令和'} and *{year == '1'} and *{season == '秋期'}">※ 採点講評はは下までスクロールしてください。</p>
+                <p th:if="*{genngou == '令和'} and *{year == '1'} and *{season == '秋期'}">※ 採点講評は下までスクロールしてください。</p>
               </th:block>
             </p>
           </div>
