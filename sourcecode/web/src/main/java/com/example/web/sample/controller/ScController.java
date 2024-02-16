@@ -1,8 +1,8 @@
 package com.example.web.sample.controller;
 
 import com.example.web.common.errorhandling.OnRejectError;
-import com.example.web.sample.form.ShisokuForm;
-import com.example.web.sample.service.ShisokuService;
+import com.example.web.sample.form.ScForm;
+import com.example.web.sample.service.ScService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,35 +14,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("sample/shisoku")
-public class ShisokuController {
+@RequestMapping("sample/sc")
+public class ScController {
 
   @Autowired
-  private ShisokuService shisokuService;
+  private ScService scService;
 
   @GetMapping
-  public String shisoku(Model model) {
-    model.addAttribute("shisokuForm", new ShisokuForm());
-    return "sample/shisoku";
+  public String sc(Model model) {
+    model.addAttribute("scForm", new ScForm());
+    return "sample/sc";
   }
 
   @PostMapping(path = "",params ="clear")
-  public String shisokuClear(Model model) {
-    model.addAttribute("shisokuForm", new ShisokuForm());
-    return "sample/shisoku";
+  public String scClear(Model model) {
+    model.addAttribute("scForm", new ScForm());
+    return "sample/sc";
   }
 
   @PostMapping(path = "",params ="calc")
-  @OnRejectError(path = "sample/shisoku")
+  @OnRejectError(path = "sample/sc")
   public String confirm(
-      @Validated ShisokuForm form,
+      @Validated ScForm form,
       BindingResult bindingResult,
       Model model) {
       model.addAttribute(
-      "shisokuResult",
-        shisokuService.calcShisoku(form.getNumber1(), form.getNumber2()));
+      "scResult",
+          scService.calcSc(form.getGenngou(), form.getYear(), form.getSeason()));
   
-    return "sample/shisoku";
+    return "sample/sc";
   
   }
 }

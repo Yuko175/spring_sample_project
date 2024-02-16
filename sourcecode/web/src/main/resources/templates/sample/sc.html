@@ -1,0 +1,82 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="../../static/css/common.css" th:href="@{/css/common.css}" />
+    <script src="../../static/js/jquery-3.6.0.min.js" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script src="../../static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="../../static/js/common.js" th:src="@{/js/common.js}"></script>
+    <title>セキュリティスペシャリスト</title>
+  </head>
+  <body>
+    <a href="/sample">
+      <input class="btn" type="button" value="　＜ 戻る　" />
+    </a>
+    <form id="scForm" method="POST" th:action="@{/sample/sc}" th:object="${scForm}">
+      <div class="row justify-content-center">
+        <div class="col-auto text-center">
+          <br />
+          <br />
+          <h2>セキュリティスペシャリスト</h2>
+          <br />
+          <input type="radio" id="genngou" th:field="*{genngou}" name="genngou" value="令和" />
+          <label style="font-size: 120%; border: 1px" for="reiwa">令和</label>
+          <input type="radio" id="genngou" th:field="*{genngou}" name="genngou" value="平成" />
+          <label style="font-size: 120%; border: 1px" for="heisei">平成</label><br />
+          <div th:if="${#fields.hasErrors('genngou')}" th:errors="*{genngou}"></div>
+          <br />
+          <input type="text" id="year" th:field="*{year}" style="text-align: center" />　年<br />
+          <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+          <br />
+          <select name="season" th:field="*{season} " style="font-size: 120%; border: 1px">
+            <option value="" disabled selected>選択してください</option>
+            <option value="春期" th:text="春期"></option>
+            <option value="秋期" th:text="秋期"></option>
+          </select>
+          <div th:if="${#fields.hasErrors('season')}" th:errors="*{season}"></div>
+
+          <br />
+          <br />
+          <br />
+          <input class="btn btn-primary" type="submit" value="　リンクを表示　" name="calc" />
+          <input class="btn btn-danger" type="submit" value="　クリア　" name="clear" /><br />
+          <br />
+          <br />
+
+          <div id="resultFrame" th:if="${not #strings.isEmpty(scResult)}" class="text-center col">
+            <!-- TODO:直接Formの文字列を代入している。気になる。 -->
+            <h5 th:text="*{genngou} +' '+ *{year} +'年' +' '+ *{season}"></h5>
+            <p>
+              <th:block th:if="${not #strings.isEmpty(scResult)}">
+                <a th:href="${scResult.gogo1_1}" target="_blank" th:text="午後1-1"></a>　：　<text th:text="${scResult.gogo1_1}" /><br />
+                <a th:href="${scResult.gogo1_2}" target="_blank" th:text="午後1-2"></a>　：　<text th:text="${scResult.gogo1_2}" /><br />
+                <a th:href="${scResult.gogo1_3}" target="_blank" th:text="午後1-3"></a>　：　<text th:text="${scResult.gogo1_3}" /><br />
+              </th:block>
+
+              <!-- TODO:うまく書けない -->
+
+              <!-- 令和5年用：2-2がnullの時に、(2-1を)1-4として表示する -->
+              <th:block th:if="${#strings.isEmpty(scResult.gogo2_2)}">
+                <a th:href="${scResult.gogo2_1}" target="_blank" th:text="午後1-4"></a>　：　<text th:text="${scResult.gogo2_1}" /><br />
+              </th:block>
+              <!-- 2-2に数字があるとき、2-1,2-2を表示する -->
+              <th:block th:if="${not #strings.isEmpty(scResult.gogo2_2)}">
+                <a th:href="${scResult.gogo2_1}" target="_blank" th:text="午後2-1"></a>　：　<text th:text="${scResult.gogo2_1}" /><br />
+                <a th:href="${scResult.gogo2_2}" target="_blank" th:text="午後2-2"></a>　：　<text th:text="${scResult.gogo2_2}" /><br />
+              </th:block>
+
+              <br />
+              <th:block th:if="${not #strings.isEmpty(scResult)}">
+                <a th:href="${scResult.saitenn}" target="_blank" th:text="採点講評"></a>　：　<text th:text="${scResult.saitenn}" />
+                <!-- 令和元年秋の時のみ、メッセージを表示 -->
+                <p th:if="*{genngou == '令和'} and *{year == '1'} and *{season == '秋期'}">※ 採点講評はは下までスクロールしてください。</p>
+              </th:block>
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

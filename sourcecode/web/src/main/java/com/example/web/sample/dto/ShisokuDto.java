@@ -25,7 +25,7 @@ public class ShisokuDto {
         return wa;
     }
 
-    public void getWa(String wa) {
+    public void setWa(String wa) {
         this.wa = wa;
     }
     
@@ -33,7 +33,7 @@ public class ShisokuDto {
         return sa;
     }
 
-    public void getSa(String sa) {
+    public void setSa(String sa) {
         this.sa = sa;
     }
     
@@ -41,7 +41,7 @@ public class ShisokuDto {
         return seki;
     }
 
-    public void getSeki(String seki) {
+    public void setSeki(String seki) {
         this.seki = seki;
     }
     
@@ -49,7 +49,7 @@ public class ShisokuDto {
         return shou;
     }
 
-    public void getShou(String shou) {
+    public void setShou(String shou) {
     this.shou = shou;
     }
 }

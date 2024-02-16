@@ -39,6 +39,7 @@ public class ShisokuService {
     String sekiDto = seki.stripTrailingZeros().toPlainString();
 
 
+
     return new ShisokuDto(waDto, saDto, sekiDto, shouDto);
     }
 }
