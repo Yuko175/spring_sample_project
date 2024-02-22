@@ -29,8 +29,8 @@ public class CountController {
   }
 
   @PostMapping(path = "",params ="clear")
-  public String countClear(Model model) {
-    model.addAttribute("countForm", new CountForm());
+  public String countClear(Model model,CountForm form) {
+    model.addAttribute("countForm", new CountForm(form.getWordLimit()));
     model.addAttribute("countResult", new CountDto());
     return "sample/count";
   }
@@ -47,7 +47,7 @@ public class CountController {
         }
       model.addAttribute(
       "countResult",
-        countService.calcCount(form.getText()));
+        countService.calcCount(form.getText(),form.getWordLimit()));
   
     return "sample/count";
   

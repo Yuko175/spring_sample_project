@@ -21,12 +21,13 @@
           <br />
           <h2>文字数カウント</h2>
           <br />
+          <br />
+          <p>行頭に「//」をつけるとコメントアウトされ、改行するまで文字はカウントされません</p>
           <textarea id="text" cols="50" rows="8" th:field="*{text}"></textarea>
-          <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></div>
+          <div class="fw-bold text-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></div>
+          <div class="fw-bold text-danger" th:unless="${#fields.hasErrors('text')}">&nbsp;</div>
+          <br />
 
-          <br />
-          <br />
-          <br />
           <input class="btn btn-primary" type="submit" value="　字数を数える　" name="calc" />
           <input class="btn btn-danger" type="submit" value="　クリア　" name="clear" /><br />
           <br />
@@ -49,8 +50,17 @@
                 <td><text th:text="${countResult.paragraphCount}" /></td>
               </tr>
               <tr>
-                <th>原稿用紙換算(400×？枚)：</th>
-                <td><text th:text="*{text}" /></td>
+                <th>
+                  文字数制限(<input id="wordLimit" th:field="*{wordLimit}" style="text-align: center; width: 50px; height: 30px" />字以内)：
+                  <div class="text-danger" th:if="${#fields.hasErrors('wordLimit')}" th:errors="*{wordLimit}"></div>
+                </th>
+                <td>
+                  <!-- <text th:text="${countResult.diffCount}" /> -->
+                  <div
+                    th:if="${countResult.diffCount != 0 }"
+                    th:text="${countResult.isMinus? countResult.diffCount + '文字足りません' : countResult.diffCount + '文字超えています'}"></div>
+                  <div th:if="${countResult.diffCount == 0 }" th:text="ー"></div>
+                </td>
               </tr>
             </table>
           </div>

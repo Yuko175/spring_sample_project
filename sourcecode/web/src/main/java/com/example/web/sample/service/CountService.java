@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CountService {
-  public CountDto calcCount(String text) {
+  public CountDto calcCount(String text,String wordLimit) {
 
     //行数を数える
     int lineNum = calcLineNum(text);
@@ -22,8 +22,8 @@ public class CountService {
     //段落数
     int paragraphCount = calcParagraphCount(text);
     //ページ
-    int pageCount = calcPageCount(text);
-    return new CountDto(spaceCharCount, noSpaceCharCount, lineCount, paragraphCount, pageCount);
+    int diffCount = calcDiffCount(wordLimit,spaceCharCount);
+    return new CountDto(spaceCharCount, noSpaceCharCount, lineCount, paragraphCount, diffCount);
 
   }
 
@@ -110,10 +110,9 @@ public class CountService {
   }
   
   //ページ
-  private int calcPageCount(String text) {
-    //TODO:文字数制限記入し、+-の文字数を表示
-    int pageCount = 0;
-    return pageCount;
+  private int calcDiffCount(String wordLimit, int spaceCharCount) {
+    int diffCount = spaceCharCount - Integer.parseInt(wordLimit);
+    return diffCount;
   }
   
 }

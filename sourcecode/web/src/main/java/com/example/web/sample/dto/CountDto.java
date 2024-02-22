@@ -7,14 +7,16 @@ public class CountDto {
     private int noSpaceCharCount;
     private int lineCount;
     private int paragraphCount;
-    private int pageCount;
+    private int diffCount;
+    private boolean isMinus;
 
     public CountDto() {
         this.spaceCharCount = 0;
         this.noSpaceCharCount = 0;
         this.lineCount = 0;
         this.paragraphCount = 0;
-        this.pageCount = 0;
+        this.diffCount = 0;
+        this.isMinus = false;
     }
 
     public CountDto (
@@ -22,12 +24,15 @@ public class CountDto {
         int noSpaceCharCount,
         int lineCount,
         int paragraphCount,
-        int pageCount) {
+        int diffCount) {
         this.spaceCharCount = spaceCharCount;
         this.noSpaceCharCount = noSpaceCharCount;
         this.lineCount = lineCount;
         this.paragraphCount = paragraphCount;
-        this.pageCount = pageCount;
+        this.diffCount = Math.abs(diffCount);
+        if (diffCount < 0) {
+            this.isMinus = true;
+        }
     }
     
     public int getSpaceCharCount() {
@@ -62,12 +67,20 @@ public class CountDto {
         this.paragraphCount = paragraphCount;
     }
     
-    public int getPageCount() {
-        return pageCount;
+    public int getDiffCount() {
+        return diffCount;
     }
 
-    public void setPageCount(int pageCount) {
-    this.pageCount = pageCount;
+    public void setDiffCount(int diffCount) {
+        this.diffCount = diffCount;
+    }
+    
+    public boolean getIsMinus() {
+        return isMinus;
+    }
+
+    public void setIsMinus(boolean isMinus) {
+    this.isMinus = isMinus;
     }
 }
 
