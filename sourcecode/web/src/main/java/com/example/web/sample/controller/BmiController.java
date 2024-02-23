@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("sample/bmi")
 public class BmiController {
 
-  @Autowired
-  private BmiService bmiService;
+    @Autowired
+    private BmiService bmiService;
+
+
+
 
   @GetMapping
   public String bmi(Model model) {
