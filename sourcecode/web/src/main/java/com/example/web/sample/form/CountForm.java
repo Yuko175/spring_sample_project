@@ -4,7 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import nablarch.core.validation.ee.NumberRange;
 
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CountForm implements Serializable {
 
   @NotNull(message = "{jakarta.validation.constraints.NotNull}")
@@ -22,20 +26,5 @@ public class CountForm implements Serializable {
     this.wordLimit = wordLimit;
   }
 
-  public String getText() {
-    return text;
-  }
-
-  public String getWordLimit() {
-    return wordLimit;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  public void setWordLimit(String wordLimit) {
-    this.wordLimit = wordLimit;
-  }
 
 }

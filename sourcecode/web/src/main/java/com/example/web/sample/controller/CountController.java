@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("sample/count")
 public class CountController {
+    public static final String WORD_LIMIT = "400";
 
   @Autowired
   private CountService countService;
@@ -42,14 +43,14 @@ public class CountController {
       BindingResult bindingResult,
       Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("countResult", new CountDto()); 
-            return "sample/count"; 
+            model.addAttribute("countResult", new CountDto());
+            return "sample/count";
         }
       model.addAttribute(
       "countResult",
         countService.calcCount(form.getText(),form.getWordLimit()));
-  
+
     return "sample/count";
-  
+
   }
 }

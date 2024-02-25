@@ -4,6 +4,10 @@ import com.example.web.common.errorhandling.OnRejectError;
 import com.example.web.sample.form.ScForm;
 import com.example.web.sample.service.ScService;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +27,7 @@ public class ScController {
   @GetMapping
   public String sc(Model model) {
     model.addAttribute("scForm", new ScForm());
+    model.addAttribute("calcDate",scService.calcDate());
     return "sample/sc";
   }
 
@@ -35,14 +40,14 @@ public class ScController {
   @PostMapping(path = "",params ="calc")
   @OnRejectError(path = "sample/sc")
   public String confirm(
-      @Validated ScForm form,
-      BindingResult bindingResult,
-      Model model) {
-      model.addAttribute(
-      "scResult",
-          scService.calcSc(form.getGenngou(), form.getYear(), form.getSeason()));
-  
+    @Validated ScForm form,
+    BindingResult bindingResult,
+    Model model) {
+    model.addAttribute(
+    "scResult",
+    scService.calcSc(form.getGenngou(), form.getYear(), form.getSeason()));
+
     return "sample/sc";
-  
+
   }
 }

@@ -1,6 +1,10 @@
 package com.example.web.sample.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CountDto {
 
     private int spaceCharCount;
@@ -34,54 +38,7 @@ public class CountDto {
             this.isMinus = true;
         }
     }
-    
-    public int getSpaceCharCount() {
-        return spaceCharCount;
-    }
 
-    public void setSpaceCharCount(int spaceCharCount) {
-        this.spaceCharCount = spaceCharCount;
-    }
-    
-    public int getNoSpaceCharCount() {
-        return noSpaceCharCount;
-    }
-
-    public void setNoSpaceCharCount(int noSpaceCharCount) {
-        this.noSpaceCharCount = noSpaceCharCount;
-    }
-    
-    public int getLineCount() {
-        return lineCount;
-    }
-
-    public void setLineCount(int lineCount) {
-        this.lineCount = lineCount;
-    }
-    
-    public int getParagraphCount() {
-        return paragraphCount;
-    }
-
-    public void setParagraphCount(int paragraphCount) {
-        this.paragraphCount = paragraphCount;
-    }
-    
-    public int getDiffCount() {
-        return diffCount;
-    }
-
-    public void setDiffCount(int diffCount) {
-        this.diffCount = diffCount;
-    }
-    
-    public boolean getIsMinus() {
-        return isMinus;
-    }
-
-    public void setIsMinus(boolean isMinus) {
-    this.isMinus = isMinus;
-    }
 }
 
 
