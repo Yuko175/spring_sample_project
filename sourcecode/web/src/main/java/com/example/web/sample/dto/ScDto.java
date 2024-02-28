@@ -12,7 +12,6 @@ import lombok.Setter;
 public class ScDto {
 
     public ScDto(int betweenDays, LocalDate examDate) {
-        //TODO Auto-generated constructor stub
     }
     private String gogo1_1;
     private String gogo1_2;

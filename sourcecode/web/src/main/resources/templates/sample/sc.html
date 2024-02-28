@@ -12,26 +12,28 @@
   </head>
   <body>
     <div class="row g-0 gx-0 row-cols-2">
-      <div class="col-9">
+      <div class="col-8">
         <a href="/sample">
           <input class="btn" type="button" value="　＜ 戻る　" />
         </a>
       </div>
-      <div
-        class="col-3 text-center d-flex flex-column justify-content-center align-items-center"
-        style="border: 1px solid blue; border-radius: 5px; height: 70px">
-        <div>
-          次回試験日は
-          <span class="text-danger" style="font-size: 17px" th:text="${calcDate.examYear}"></span>年
-          <span class="text-danger" style="font-size: 17px" th:text="${calcDate.examMonth}"></span>月
-          <span class="text-danger" style="font-size: 17px" th:text="${calcDate.examDay}"></span>日
-        </div>
-        <div>
-          開催まであと
-          <span class="fw-bold text-danger" style="font-size: 22px" th:text="${calcDate.betweenDays}"></span>日です
+      <div class="col-4">
+        <div class="text-end d-flex flex-column justify-content-center" style="height: 100px; padding-right: 10px">
+          <div style="font-size: 11px">
+            次回試験日は
+            <span class="text-danger" style="font-size: 16px" th:text="${calcDate.examYear}"></span>年
+            <span class="text-danger" style="font-size: 16px" th:text="${calcDate.examMonth}"></span>月
+            <span class="text-danger" style="font-size: 16px" th:text="${calcDate.examDay}"></span>日
+          </div>
+          <div style="font-size: 15px">
+            開催まであと
+            <span class="fw-bold text-danger" style="font-size: 23px" th:text="${calcDate.betweenDays}"></span>日です
+          </div>
+          <a href="https://www.sc-siken.com" target="_blank" style="font-size: 15px">情報処理安全確保支援士ドットコム </a>
         </div>
       </div>
     </div>
+
     <form id="scForm" method="POST" th:action="@{/sample/sc}" th:object="${scForm}">
       <div class="row justify-content-center">
         <div class="col-auto text-center">
