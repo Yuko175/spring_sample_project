@@ -9,7 +9,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MineDto {
 
-    private String mineFound;
+    private String mineFound1_1;
+    private String mineFound1_2;
+    private String mineFound1_3;
+    private String mineFound2_1;
+    private String mineFound2_2;
+    private String mineFound2_3;
+    private String mineFound3_1;
+    private String mineFound3_2;
+    private String mineFound3_3;
 
 }
 

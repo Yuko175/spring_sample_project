@@ -22,16 +22,25 @@ public class MineController {
 
     @GetMapping
     public String mine(Model model) {
-        String mineFound = "　";
-        model.addAttribute("mineResult", new MineDto(mineFound));
+        String mineFound1_1 = "　";
+        String mineFound1_2 = "　";
+        String mineFound1_3 = "　";
+        String mineFound2_1 = "　";
+        String mineFound2_2 = "　";
+        String mineFound2_3 = "　";
+        String mineFound3_1 = "　";
+        String mineFound3_2 = "　";
+        String mineFound3_3 = "　";
+        model.addAttribute("mineResult", new MineDto(mineFound1_1,mineFound1_2,mineFound1_3,mineFound2_1,mineFound2_2,mineFound2_3,mineFound3_1,mineFound3_2,mineFound3_3));
         return "sample/mine";
     }
 
     @PostMapping("")
-    public String execute(@RequestParam("position") String value, @ModelAttribute MineForm form, BindingResult bindingResult, Model model) {
-    form.setPosition(value);
-    model.addAttribute("mineResult", mineService.calcMine(form.getPosition()));
-    return "sample/mine";
+    public String execute(@RequestParam("position") String value, @ModelAttribute MineForm form,
+            BindingResult bindingResult, Model model) {
+        form.setPosition(value);
+        model.addAttribute("mineResult", mineService.calcMine(form.getPosition()));
+        return "sample/mine";
     }
 
 }
