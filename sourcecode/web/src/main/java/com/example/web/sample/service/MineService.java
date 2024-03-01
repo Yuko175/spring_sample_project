@@ -18,6 +18,7 @@ public class MineService {
                 break;
             }
         }
+        String position = value;
         String mineFound1_1 = "　";
         String mineFound1_2 = "　";
         String mineFound1_3 = "　";
@@ -83,6 +84,6 @@ public class MineService {
             }
         }
 
-    return new MineDto(mineFound1_1,mineFound1_2,mineFound1_3,mineFound2_1,mineFound2_2,mineFound2_3,mineFound3_1,mineFound3_2,mineFound3_3);
+    return new MineDto(position,mineFound1_1,mineFound1_2,mineFound1_3,mineFound2_1,mineFound2_2,mineFound2_3,mineFound3_1,mineFound3_2,mineFound3_3);
     }
 }

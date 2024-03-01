@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class MineDto {
-
+    private String position;
     private String mineFound1_1;
     private String mineFound1_2;
     private String mineFound1_3;
@@ -18,6 +18,7 @@ public class MineDto {
     private String mineFound3_1;
     private String mineFound3_2;
     private String mineFound3_3;
+
 
 }
 
