@@ -1,5 +1,6 @@
 package com.example.web.sample.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,48 +10,46 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.web.sample.dto.MineDto;
 import com.example.web.sample.form.MineForm;
 import com.example.web.sample.service.MineService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("sample/mine")
 public class MineController {
+
+    private static final String IS_PUSHED_ARRAY = "isPushedArray";
+
     @Autowired
     private MineService mineService;
 
+    //TODO:セッションを用いて動作するように変更しました。
+    //TODO:これで結局HTMLから受け取る値は位置情報だけになったのでFormとDtoは分けられると思います。
     @GetMapping
-    public String mine(Model model) {
-        String position = "　";
-        String mineFound1_1 = "　";
-        String mineFound1_2 = "　";
-        String mineFound1_3 = "　";
-        String mineFound2_1 = "　";
-        String mineFound2_2 = "　";
-        String mineFound2_3 = "　";
-        String mineFound3_1 = "　";
-        String mineFound3_2 = "　";
-        String mineFound3_3 = "　";
-        model.addAttribute("mineResult", new MineDto(position,mineFound1_1, mineFound1_2, mineFound1_3, mineFound2_1,
-                mineFound2_2, mineFound2_3, mineFound3_1, mineFound3_2, mineFound3_3));
+    public String mine(HttpSession session, Model model) {
+        MineForm mineForm = new MineForm();
+        BeanUtils.copyProperties(new MineDto(), mineForm);
+        model.addAttribute("mineForm", mineForm);
+        session.setAttribute(IS_PUSHED_ARRAY, mineForm.getIsPushedArray());
         return "sample/mine";
     }
 
-    @GetMapping("/anc")
-    public String anc(@RequestParam("position") String value, @ModelAttribute MineForm form,
-            BindingResult bindingResult, Model model) {
-            form.setPosition(value);
-            model.addAttribute("mineResult", mineService.calcMine(form.getPosition()));
-        return "sample/mineAnc";
-    }
-
-
     @PostMapping("")
-    public String execute(@RequestParam("position") String value, @ModelAttribute MineForm form,
+    public String execute(HttpSession session, MineForm form,
             BindingResult bindingResult, Model model) {
-        form.setPosition(value);
-        model.addAttribute("mineResult", mineService.calcMine(form.getPosition()));
+        System.out.println(form.getPosition());
+
+        boolean[][] isPushedArray = (boolean[][]) session.getAttribute(IS_PUSHED_ARRAY);
+
+        MineDto mineDto = mineService.calcMine(form.getPosition(), isPushedArray);
+
+        session.setAttribute(IS_PUSHED_ARRAY, mineDto.getIsPushedArray());
+
+        model.addAttribute("mineForm", mineDto);
         return "sample/mine";
     }
 

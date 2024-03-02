@@ -1,23 +1,77 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>テスト</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
+    <title>HTMX Button Example</title>
+    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
   </head>
   <body>
-    <h2>this</h2>
-    <script type="text/javascript">
-      for (var i = 0; i < 10; i++) {
-        document.write(i);
-      }
+    <button hx-get="/sample/test/anc/1" hx-target="this" hx-trigger="click">クリック</button>
+    <button hx-get="/sample/test/anc/2" hx-target="this" hx-trigger="click[shiftKey]">シフトクリック</button>
+
+
+
+    
+    <button id="clickButton" hx-trigger="click[shiftKey]">シフトクリック戻る</button>
+    <script>
+      document.getElementById("clickButton").addEventListener("click", function (event) {
+        var button = this;
+        if (event.shiftKey) {
+          if (button.dataset.clicked === "true") {
+            button.textContent = "シフトクリック戻る";
+            button.dataset.clicked = "false";
+          } else {
+            button.textContent = "🚩";
+            button.dataset.clicked = "true";
+          }
+        }
+      });
     </script>
-    <button hx-get="/sample/test/anc" hx-target="this" hx-trigger="click">クリック</button>
-    <button hx-get="/sample/test" hx-target="this" hx-trigger="click">クリック</button>
-    <br />
+
+
+    <div id="test" text="あああ"></div>
+    <button id="combinedButton" hx-get="/sample/test/anc/1" hx-target="this" hx-trigger="click:shift">最有力？</button>
+    <script>
+      document.getElementById("combinedButton").addEventListener("click", function (event) {
+        var button = this;
+        if (event.shiftKey) {
+          if (button.dataset.clicked === "true") {
+            button.textContent = "　";
+            button.dataset.clicked = "false";
+          } else {
+            button.textContent = "🚩";
+            button.dataset.clicked = "true";
+          }
+        } else {
+          //button.textContent = "Clicked!";
+          //window.location.href = 
+          // button.textContent = button.getAttribute("hx-get");
+          button.textContent = document.getElementById("test").getAttribute("text");
+        }
+      });
+    </script>
+
+
+
+    <p id="target">hoge</p>
+    <button hx-get="/sample/test/anc/1" hx-target="#target" hx-trigger="click" hx-swap="innerHTML">クリック</button>
+
+
+
+    <button id="myButton1">2つに分ける</button>
+
+    <script>
+        document.getElementById('myButton1').addEventListener('click', function(event) {
+            if (event.shiftKey) {
+                window.location.href = "/sample/test/anc/2";
+            } else {
+                window.location.href = "/sample/test/anc/1";
+            }
+        });
+    </script>
+
+      </body>
+    </html>
   </body>
 </html>

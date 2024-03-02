@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("sample/test")
 public class TestController {
 
-  @GetMapping
+    @GetMapping
   public String index(Model model) {
       return "sample/test";
   }
 
-  @GetMapping("/anc")
-  public String postIndex(Model model) {
-      return "sample/testAnc";
+    @GetMapping("/anc/1")
+  public String testAnc1(Model model) {
+      return "sample/testAnc1";
+  }
+
+    @GetMapping("/anc/2")
+  public String testAnc2(Model model) {
+      return "sample/testAnc2";
   }
 
 

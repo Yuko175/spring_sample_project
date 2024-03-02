@@ -15,45 +15,50 @@
     <a href="/sample">
       <input class="btn" type="button" value=" ＜ 戻る " />
     </a>
-    <form id="mineForm" method="POST" th:action="@{/sample/mine}">
+    <form id="mineForm" method="POST" th:action="@{/sample/mine}" th:object="${mineForm}">
       <div class="row justify-content-center">
         <div class="col-auto text-center">
           <br />
           <br />
           <h2>マインスイーパー</h2>
           <br />
-          <div class="container text-center" style="height: 210px; width: 210px">
+          <div class="container text-center">
             <div class="row g-0 gx-0 row-cols-3">
-              <button
-                class="btn btn-primary btn-square btn-lg"
-                type="submit"
-                name="position"
-                hx-get="/sample/mine/anc"
-                hx-target="this"
-                hx-trigger="click"
-                value="1_1"
-                th:text="${mineResult.mineFound1_1}"
-                onclick="this.disabled = this.style.color = 'black'; true; this.style.backgroundColor = 'white'; this.style.borderColor = 'gray';"></button>
-              <button
-                class="btn btn-primary btn-square btn-lg"
-                type="submit"
-                name="position"
-                hx-get="/sample/mine/anc"
-                hx-target="this"
-                hx-trigger="click"
-                value="1_2"
-                th:text="${mineResult.mineFound1_2}"
-                onclick="this.disabled = this.style.color = 'black'; true; this.style.backgroundColor = 'white'; this.style.borderColor = 'gray';"></button>
-              <button
-                class="btn btn-primary btn-square btn-lg"
-                type="submit"
-                name="position"
-                hx-get="/sample/mine/anc"
-                hx-target="this"
-                hx-trigger="click"
-                value="1_3"
-                th:text="${mineResult.mineFound1_3}"
-                onclick="this.disabled = this.style.color = 'black'; true; this.style.backgroundColor = 'white'; this.style.borderColor = 'gray';"></button>
+              <div th:each="continet,ix : *{mineArray}">
+                <div th:each="con,jx : ${continet}">
+                  <button
+                    th:if="!*{isPushedArray[__${jx.index}__][__${ix.index}__]}"
+                    style="height: 50px; width: 56px"
+                    class="btn btn-primary btn-square btn-lg"
+                    type="submit"
+                    name="position"
+                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                    th:text="*{mineArray[__${jx.index}__][__${ix.index}__]}"></button>
+                  <button
+                    th:if="*{isPushedArray[__${jx.index}__][__${ix.index}__]}"
+                    style="height: 50px; width: 56px"
+                    class="btn btn-primary btn-square btn-lg"
+                    type="submit"
+                    name="position"
+                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                    th:text="*{mineArray[__${jx.index}__][__${ix.index}__]}"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container text-center">
+            <div class="row g-0 gx-0 row-cols-3">
+              <div th:each="continet,ix : *{isPushedArray}">
+                <div th:each="con,jx : ${continet}">
+                  <button
+                    style="height: 50px; width: 56px"
+                    class="btn btn-primary btn-square btn-lg"
+                    type="submit"
+                    name="position"
+                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                    th:text="*{isPushedArray[__${jx.index}__][__${ix.index}__]}"></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
