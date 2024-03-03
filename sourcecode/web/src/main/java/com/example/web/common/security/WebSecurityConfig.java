@@ -41,8 +41,10 @@ public class WebSecurityConfig {
    */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http)
-    throws Exception {
-    return http
+          throws Exception {
+      return http
+      // TODO:一時的にcsrfを無効にしている。
+      .csrf((csrf) -> csrf.disable())
       // 認可の設定
       .authorizeHttpRequests(c ->
         c

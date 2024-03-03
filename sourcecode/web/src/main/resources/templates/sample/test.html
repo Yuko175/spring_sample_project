@@ -71,6 +71,23 @@
         });
     </script>
 
+<button id="myButton1">右クリック</button>
+<script>
+  // 右クリックメニューが表示されるイベント（contextmenu）を検出する
+  document.addEventListener('contextmenu', function(event) {
+    // イベントを無効化（preventDefault）し、右クリック禁止を実現する
+    event.preventDefault();
+    window.location.href = "/sample/test/anc/1";
+  });
+</script>
+
+<button value="あああ" onclick="clickNormal(value)">引数出る</button>
+<script>
+  function clickNormal(value) {
+    alert(value);
+  }
+</script>
+
       </body>
     </html>
   </body>

@@ -8,22 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MineDto {
     private String position = "　";
-    private String[][] mineArray = {
+    private String[][] pushedField = {
             { "　", "　", "　" },
             { "　", "　", "　" },
             { "　", "　", "　" }
     };
-    private boolean[][] isPushedArray = {
-            { false, false, false },
-            { false, false, false },
-            { false, false, false }
+    private String[][] cellStatus = {
+            { "normal", "normal", "normal" },
+            { "normal", "normal", "normal" },
+            { "normal","normal", "normal" }
     };
-
-    public MineDto(String position, String[][] mineArray, boolean[][] isPushedArray) {
-        this.position = position;
-        this.mineArray = mineArray;
-        this.isPushedArray = isPushedArray;
-    }
 }

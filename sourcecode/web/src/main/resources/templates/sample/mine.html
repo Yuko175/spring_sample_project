@@ -15,7 +15,7 @@
     <a href="/sample">
       <input class="btn" type="button" value=" ＜ 戻る " />
     </a>
-    <form id="mineForm" method="POST" th:action="@{/sample/mine}" th:object="${mineForm}">
+    <div id="mineForm" th:object="${mineDto}">
       <div class="row justify-content-center">
         <div class="col-auto text-center">
           <br />
@@ -24,45 +24,115 @@
           <br />
           <div class="container text-center">
             <div class="row g-0 gx-0 row-cols-3">
-              <div th:each="continet,ix : *{mineArray}">
+              <div th:each="continet,ix : *{pushedField}">
                 <div th:each="con,jx : ${continet}">
+                  <!--表-->
                   <button
-                    th:if="!*{isPushedArray[__${jx.index}__][__${ix.index}__]}"
-                    style="height: 50px; width: 56px"
-                    class="btn btn-primary btn-square btn-lg"
+                    th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='normal'"
+                    style="height: 65px; width: 65px"
+                    class="btn btn-success btn-square btn-lg"
+                    name="position"
+                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                    onclick="calcMine(value)"
+                    oncontextmenu="putFlag(value);return false"></button>
+                  <!--裏-->
+                  <!--裏：普通-->
+                  <div th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]}=='pushed'">
+                    <button
+                      th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} != '×' "
+                      style="height: 65px; width: 65px"
+                      class="btn btn-outline-success btn-square btn-lg"
+                      th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                      th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
+                      disabled></button>
+                    <!--裏：地雷-->
+                    <button
+                      th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} == '×' "
+                      style="height: 65px; width: 65px"
+                      class="btn btn-danger btn-square btn-lg"
+                      th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                      th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
+                      disabled></button>
+                  </div>
+                  <!--旗-->
+                  <button
+                    th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='flag'"
+                    id="flagCell"
+                    style="height: 65px; width: 65px"
+                    class="btn btn-warning btn-square btn-lg"
                     type="submit"
                     name="position"
                     th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    th:text="*{mineArray[__${jx.index}__][__${ix.index}__]}"></button>
-                  <button
-                    th:if="*{isPushedArray[__${jx.index}__][__${ix.index}__]}"
-                    style="height: 50px; width: 56px"
-                    class="btn btn-primary btn-square btn-lg"
-                    type="submit"
-                    name="position"
-                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    th:text="*{mineArray[__${jx.index}__][__${ix.index}__]}"></button>
+                    th:text="旗"
+                    onclick="putFlag(value)"
+                    oncontextmenu="putNormal(value);return false"></button>
                 </div>
               </div>
             </div>
           </div>
+          <div>押したか↓</div>
           <div class="container text-center">
             <div class="row g-0 gx-0 row-cols-3">
-              <div th:each="continet,ix : *{isPushedArray}">
+              <div th:each="continet,ix : *{cellStatus}">
                 <div th:each="con,jx : ${continet}">
                   <button
-                    style="height: 50px; width: 56px"
+                    style="height: 30px; width: 65px"
                     class="btn btn-primary btn-square btn-lg"
                     type="submit"
                     name="position"
                     th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    th:text="*{isPushedArray[__${jx.index}__][__${ix.index}__]}"></button>
+                    th:text="*{cellStatus[__${jx.index}__][__${ix.index}__]}"></button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   </body>
 </html>
+
+<script>
+  const createFormForPost = (position, status) => {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "mine";
+
+    const value = document.createElement("input");
+    value.type = "hidden";
+    value.name = "value";
+    value.value = position;
+
+    const param = document.createElement("input");
+    param.type = "hidden";
+    param.name = "name";
+    param.value = status;
+
+    form.appendChild(value);
+    form.appendChild(param);
+    document.body.appendChild(form);
+
+    return form;
+  };
+
+  function calcMine(position) {
+    const form = createFormForPost(position, "calcMine");
+    form.submit();
+  }
+
+  function putFlag(position) {
+    const form = createFormForPost(position, "putFlag");
+    form.submit();
+  }
+
+  function putNormal(position) {
+    const form = createFormForPost(position, "putNormal");
+    form.submit();
+  }
+</script>
+<!--calMineはopenCell、putNormalはremoveFlagなどなど変数をきちんと定義する-->
+<!--マス目を増やす5*5とか-->
+<!--サービスにおける地雷の裏表示のところの省略(セッションから取ってくるのもあり)-->
+<!--裏画面の作成-->
+
+<!--TODO:JavaScriptのPOSTでsubmitを実現するために、csrfを無効化している。修正する場合は「csrf」で検索-->
