@@ -78,7 +78,8 @@ public class WebSecurityConfig {
       .formLogin(c ->
         c
           // ログイン認証を行うパスを設定する
-          .loginPage("/login")
+          // TODO:　元々は ".loginPage("/login")" であったものを変更しています。
+          .loginPage("/sample")
           // ユーザー名のパラメーター名を設定する
           .usernameParameter("loginId")
           // パスワードのパラメーター名を設定する

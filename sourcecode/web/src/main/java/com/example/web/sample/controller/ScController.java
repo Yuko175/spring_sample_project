@@ -1,14 +1,9 @@
 package com.example.web.sample.controller;
 
 import com.example.web.common.errorhandling.OnRejectError;
-import com.example.web.sample.dto.CountDto;
-import com.example.web.sample.dto.ScDateDto;
 import com.example.web.sample.form.ScForm;
 import com.example.web.sample.service.ScService;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 

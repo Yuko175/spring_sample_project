@@ -5,7 +5,6 @@ import com.example.web.sample.dto.ScDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Service;
