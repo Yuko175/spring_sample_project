@@ -16,4 +16,5 @@ public class MineDto {
     private String position = "";
     private String[][] pushedField = new String[FIELD_SIZE][FIELD_SIZE];
     private String[][] cellStatus = new String[FIELD_SIZE][FIELD_SIZE];
+    private String gameStatus = "play";
 }

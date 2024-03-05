@@ -1,18 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTMX Button Example</title>
-    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="../../static/css/common.css" th:href="@{/css/common.css}" />
+    <script src="../../static/js/jquery-3.6.0.min.js" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script src="../../static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="../../static/js/common.js" th:src="@{/js/common.js}"></script>
+    <script src="../../static/js/mine.js" th:src="@{/js/mine.js}"></script>
+    <title>マインスイーパー</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
   </head>
+  <body>
   <body>
     <button hx-get="/sample/test/anc/1" hx-target="this" hx-trigger="click">クリック</button>
     <button hx-get="/sample/test/anc/2" hx-target="this" hx-trigger="click[shiftKey]">シフトクリック</button>
 
 
 
-    
+<!--    
     <button id="clickButton" hx-trigger="click[shiftKey]">シフトクリック戻る</button>
     <script>
       document.getElementById("clickButton").addEventListener("click", function (event) {
@@ -86,7 +93,32 @@
   function clickNormal(value) {
     alert(value);
   }
-</script>
+</script>-->
+
+
+
+<div class="container text-center"style="max-width: 600px;">
+  <div class="row g-0 gx-0 row-cols-20">
+    <th:block th:each="row, rowIndex : ${#numbers.sequence(1, 20)}">
+      <div class="row"  style="padding:5; flex-wrap: nowrap">
+        <th:block th:each="col, colIndex : ${#numbers.sequence(1, 20)}">
+          <div class="col d-flex justify-content-center align-items-center" style="width:calc(100% / 20); padding: 0; min-width: 30px; min-height: 30px;">
+            <button type="button"  style="width:30px;height:30px;padding: 0;"></button>
+          </div>
+        </th:block>
+      </div>
+    </th:block>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 
       </body>
     </html>

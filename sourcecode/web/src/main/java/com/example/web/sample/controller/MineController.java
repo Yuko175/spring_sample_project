@@ -21,11 +21,12 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    public static final int FIELD_SIZE = 5;
+    public static final int FIELD_SIZE = 6;
 
     private static final String CELL_STATUS = "cellStatus";
     private static final String PUSHED_FIELD = "pushedField";
     private static final String IS_FIRST_CLICK_COMPLETED = "isFirstClickCompleted";
+    private static final String IS_GAME_FINISHED = "isGameFinished";
 
 
     @Autowired
@@ -36,6 +37,7 @@ public class MineController {
         //初期値をsessionに詰める
         session.setAttribute("fieldSize", FIELD_SIZE);
         session.setAttribute(IS_FIRST_CLICK_COMPLETED, false);
+        session.setAttribute(IS_GAME_FINISHED, false);
 
         //Dtoに必要な値を代入し、sessionに詰める
         MineDto newMineDto = new MineDto();
@@ -56,19 +58,22 @@ public class MineController {
     public String putFlag(HttpSession session, @RequestParam(name = "value") String position,
             @RequestParam(name = "name") String param, Model model) {
 
-        //更新値をDtoにつめるためインスタンスを新規作成
+        //更新値をDtoに詰めるため、インスタンスを新規作成
         MineDto forUpdateMineDto = new MineDto();
 
         //1回目であれば、地雷をセット(裏画面作成)
         boolean isFirstClickCompleted = (boolean) session.getAttribute(IS_FIRST_CLICK_COMPLETED);
         String[][] oldPushedField = (String[][]) session.getAttribute(PUSHED_FIELD);
+        String[][] newPushedField = new String[FIELD_SIZE][FIELD_SIZE];
         if (!isFirstClickCompleted) {
-            forUpdateMineDto.setPushedField(mineService.makePushedField(oldPushedField));
-            session.setAttribute(PUSHED_FIELD, forUpdateMineDto.getPushedField());
+            newPushedField = mineService.makePushedField(oldPushedField);
+            session.setAttribute(PUSHED_FIELD, newPushedField);
             session.setAttribute(IS_FIRST_CLICK_COMPLETED, true);
         } else {
-            forUpdateMineDto.setPushedField(oldPushedField);
+            //変更がなければ変更せずにそのままsetする
+            newPushedField = oldPushedField;
         }
+        forUpdateMineDto.setPushedField(newPushedField);
 
         //cellStatusの生成/更新処理
         String[][] oldCellStatus = (String[][]) session.getAttribute(CELL_STATUS);
@@ -85,11 +90,14 @@ public class MineController {
                 break;
         }
         forUpdateMineDto.setCellStatus(newCellStatus);
-
         session.setAttribute(CELL_STATUS, forUpdateMineDto.getCellStatus());
 
         //positionは初期値(null)のままで返す
         model.addAttribute("mineDto", forUpdateMineDto);
+
+        //終了判定
+        String newGameStatus = forUpdateMineDto.getGameStatus();
+        forUpdateMineDto.setGameStatus(mineService.checkGameStatus(newPushedField,newCellStatus,newGameStatus));
 
         return "sample/mine";
     }

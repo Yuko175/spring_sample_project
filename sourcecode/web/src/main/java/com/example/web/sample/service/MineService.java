@@ -8,29 +8,96 @@ import org.springframework.stereotype.Service;
 public class MineService {
     // 初期値normalの設定
     public String[][] setNormal(String[][] cellStatus) {
-        for (int i = 0; i < cellStatus.length; i++) {
-            for (int j = 0; j < cellStatus[i].length; j++) {
-                cellStatus[i][j] = "normal";
+        for (int row_i = 0; row_i < cellStatus.length; row_i++) {
+            for (int column_i = 0; column_i < cellStatus[row_i].length; column_i++) {
+                cellStatus[row_i][column_i] = "normal";
             }
         }
         return cellStatus;
     }
 
-    //地雷の裏表示(地雷"×"、その他"⚪︎")
+    //地雷の裏表示
     public String[][] makePushedField(String[][] pushedField) {
+        return makeMineField(pushedField);
+    }
+
+    //地雷の裏表示(地雷"×"、その他"⚪︎")
+    private String[][] makeMineField(String[][] pushedField) {
+        boolean isSetMineCompleted = false;
+        int mineCount = 0;
         Random random = new Random();
-        for (int row_i = 0; row_i < pushedField.length; row_i++) {
-            for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
-                //30%で"×"
-                if (random.nextInt(100) < 30) {
-                    pushedField[row_i][column_i] = "×";
+        while (!isSetMineCompleted) {
+            // pushedField、mineCountをリセット
+            pushedField = new String[pushedField.length][pushedField.length];
+            mineCount = 0;
+            for (int row_i = 0; row_i < pushedField.length; row_i++) {
+                for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                    //40%で"×"
+                    if (random.nextInt(100) < 40) {
+                        pushedField[row_i][column_i] = "×";
+                    } else {
+                        pushedField[row_i][column_i] = "　";
+                    }
+                    if (row_i == 0 || row_i == pushedField.length - 1 || column_i == 0
+                            || column_i == pushedField.length - 1) {
+                        pushedField[row_i][column_i] = "　";
+                    }
+                    if (pushedField[row_i][column_i].equals("×")) {
+                        mineCount++;
+                    }
                 }
-                else {
-                    pushedField[row_i][column_i] = "⚪︎";
+            }
+            //25~30%の確率で"×"
+            int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
+            int maxMineLimit = (int) Math.round(fieldSize * 0.35);
+            int minMineLimit = (int) Math.round(fieldSize * 0.25);
+            if (minMineLimit <= mineCount && mineCount <= maxMineLimit) {
+                isSetMineCompleted = true;
+                System.out.println(mineCount);
+            }
+        }
+
+        //数字の計算
+        int[][] numberField = new int[pushedField.length][pushedField.length];
+        numberField = makeNumberField(pushedField, numberField);
+
+        //pushedFieldに数字を入れる(0または地雷(-1))以外)
+        for (int row_i = 0; row_i < numberField.length; row_i++) {
+            for (int column_i = 0; column_i < numberField[row_i].length; column_i++) {
+                if (numberField[row_i][column_i] > 0) {
+                    pushedField[row_i][column_i] = Integer.toString(numberField[row_i][column_i]);
                 }
             }
         }
         return pushedField;
+
+    }
+
+    //地雷の裏表示(数字)
+    private int[][] makeNumberField(String[][] pushedField,int[][] numberField ) {
+        for (int row_i = 0; row_i < pushedField.length; row_i++) {
+            for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                if (pushedField[row_i][column_i].equals("×")) {
+                    numberField[row_i][column_i + 1]++;
+                    numberField[row_i][column_i - 1]++;
+                    numberField[row_i - 1][column_i]++;
+                    numberField[row_i + 1][column_i]++;
+                    numberField[row_i + 1][column_i + 1]++;
+                    numberField[row_i + 1][column_i - 1]++;
+                    numberField[row_i - 1][column_i + 1]++;
+                    numberField[row_i - 1][column_i - 1]++;
+                }
+            }
+        }
+        //地雷の場所は-1にする
+        for (int row_i = 0; row_i < pushedField.length; row_i++) {
+            for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                if (pushedField[row_i][column_i].equals("×")) {
+                    numberField[row_i][column_i] = -1;
+                }
+            }
+        }
+        return numberField;
     }
 
     //押したか判定
@@ -56,4 +123,36 @@ public class MineService {
 
         return cellStatus;
     }
+
+    //終了判定：gameStatus = "gameOver";
+    //newPushedFieldとnewCellStatusの要素の要素を比べ、pushed="×"だと終了
+    public String checkGameStatus(String[][] pushedField, String[][] cellStatus, String gameStatus) {
+        //失敗判定
+        int safeFieldCount = 0;
+        int pushCount = 0;
+        for (int row_i = 0; row_i < pushedField.length; row_i++) {
+            for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                //"⚪︎"の時
+                if (!pushedField[row_i][column_i].equals("×")) {
+                    safeFieldCount++;
+                    //押した
+                    if (cellStatus[row_i][column_i].equals("pushed")) {
+                        pushCount++;
+                    }
+                //"×"の時、押した
+                } else if (cellStatus[row_i][column_i].equals("pushed")) {
+                    gameStatus = "gameOver";
+                }
+            }
+        }
+
+        //クリア判定
+        //"gameOver"になっていないことを確認後、"gameClear"にする
+        if (gameStatus != "gameOver" && safeFieldCount == pushCount) {
+            gameStatus = "gameClear";
+        }
+
+        return gameStatus;
+    }
 }
+

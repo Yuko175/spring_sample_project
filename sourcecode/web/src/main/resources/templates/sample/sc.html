@@ -47,10 +47,10 @@
           <label style="font-size: 120%; border: 1px" for="heisei">平成</label><br />
           <div class="fw-bold text-danger" th:if="${#fields.hasErrors('genngou')}" th:errors="*{genngou}"></div>
           <br />
-          <input type="text" id="year" th:field="*{year}" style="text-align: center" />　年<br />
+          <input type="text" id="year" th:field="*{year}" style="text-align: center" required />　年<br />
           <div class="fw-bold text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
           <br />
-          <select name="season" th:field="*{season} " style="font-size: 120%; border: 1px">
+          <select name="season" th:field="*{season} " style="font-size: 120%; border: 1px" required>
             <option value="" disabled selected>選択してください</option>
             <option value="春期" th:text="春期"></option>
             <option value="秋期" th:text="秋期"></option>

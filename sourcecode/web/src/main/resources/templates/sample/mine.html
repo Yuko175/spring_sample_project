@@ -24,62 +24,72 @@
           <h2>マインスイーパー</h2>
 
           <br />
+          <div th:text="*{gameStatus}"></div>
           <div class="container text-center">
             <div th:class="${'row g-0 gx-0 row-cols-' + session.fieldSize}">
               <div th:each="continet,ix : *{pushedField}">
                 <div th:each="con,jx : ${continet}">
-                  <!--表-->
-                  <button
-                    th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='normal'"
-                    style="height: 65px; width: 65px"
-                    class="btn btn-success btn-square btn-lg"
-                    name="position"
-                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    onclick="openCell(value)"
-                    oncontextmenu="putFlag(value);return false"></button>
-                  <!--裏-->
-                  <!--裏：普通-->
-                  <div th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]}=='pushed'">
-                    <button
-                      th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} != '×' "
-                      style="height: 65px; width: 65px"
-                      class="btn btn-outline-success btn-square btn-lg"
-                      th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                      th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
-                      disabled></button>
-                    <!--裏：地雷-->
-                    <button
-                      th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} == '×' "
-                      style="height: 65px; width: 65px"
-                      class="btn btn-danger btn-square btn-lg"
-                      th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                      th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
-                      disabled></button>
+                  <!--TODO:まとめる-->
+                  <div th:if="${ix.index != 0}">
+                    <div th:if="${ix.index != session.fieldSize-1}">
+                      <div th:if="${jx.index != 0}">
+                        <div th:if="${jx.index != session.fieldSize-1}">
+                          <!--表-->
+                          <button
+                            th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='normal'"
+                            style="height: 40px; width: 40px; font-size: 14px"
+                            class="btn btn-success btn-square btn-lg"
+                            name="position"
+                            th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                            onclick="openCell(value)"
+                            oncontextmenu="putFlag(value);return false"></button>
+                          <!--裏-->
+                          <!--裏：普通-->
+                          <div th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]}=='pushed'">
+                            <button
+                              th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} != '×' "
+                              style="height: 40px; width: 40px; font-size: 14px"
+                              class="btn btn-outline-success btn-square btn-lg"
+                              th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                              th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
+                              disabled></button>
+                            <!--裏：地雷-->
+                            <button
+                              th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} == '×' "
+                              style="height: 40px; width: 40px; font-size: 14px"
+                              class="btn btn-danger btn-square btn-lg"
+                              th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                              th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
+                              disabled></button>
+                          </div>
+                          <!--旗-->
+                          <button
+                            th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='flag'"
+                            id="flagCell"
+                            style="height: 40px; width: 40px; font-size: 14px"
+                            class="btn btn-warning btn-square btn-lg"
+                            type="submit"
+                            name="position"
+                            th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                            th:text="？"
+                            onclick="putFlag(value)"
+                            oncontextmenu="removeFlag(value);return false"></button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <!--旗-->
-                  <button
-                    th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='flag'"
-                    id="flagCell"
-                    style="height: 65px; width: 65px"
-                    class="btn btn-warning btn-square btn-lg"
-                    type="submit"
-                    name="position"
-                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    th:text="？"
-                    onclick="putFlag(value)"
-                    oncontextmenu="removeFlag(value);return false"></button>
                 </div>
               </div>
             </div>
           </div>
-          <!--
+
           <div>押したか↓</div>
           <div class="container text-center">
             <div th:class="${'row g-0 gx-0 row-cols-' + session.fieldSize}">
               <div th:each="continet,ix : *{cellStatus}">
                 <div th:each="con,jx : ${continet}">
                   <button
-                    style="height: 30px; width: 65px"
+                    style="height: 40px; width: 40px; font-size: 14px"
                     class="btn btn-primary btn-square btn-lg"
                     type="submit"
                     name="position"
@@ -89,14 +99,14 @@
               </div>
             </div>
           </div>
--->
+
           <div>裏画面↓</div>
           <div class="container text-center">
             <div th:class="${'row g-0 gx-0 row-cols-' + session.fieldSize}">
               <div th:each="continet,ix : *{cellStatus}">
                 <div th:each="con,jx : ${continet}">
                   <button
-                    style="height: 30px; width: 65px"
+                    style="height: 30px; width: 40px; font-size: 14px"
                     class="btn btn-primary btn-square btn-lg"
                     type="submit"
                     name="position"
