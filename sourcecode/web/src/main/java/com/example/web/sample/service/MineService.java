@@ -11,6 +11,10 @@ public class MineService {
         for (int row_i = 0; row_i < cellStatus.length; row_i++) {
             for (int column_i = 0; column_i < cellStatus[row_i].length; column_i++) {
                 cellStatus[row_i][column_i] = "normal";
+                if (row_i == 0 || row_i == cellStatus.length - 1 || column_i == 0
+                            || column_i == cellStatus.length - 1) {
+                        cellStatus[row_i][column_i] = "pushed";
+                    }
             }
         }
         return cellStatus;
@@ -26,6 +30,11 @@ public class MineService {
         boolean isSetMineCompleted = false;
         int mineCount = 0;
         Random random = new Random();
+        //TODO:・すでに "×"がある場合
+        //TODO:・row_i == 0 || row_i == pushedField.length - 1 || column_i == 0   || column_i == pushedField.length - 1の場合
+        //TODO:・positionの周り8マスである場合
+        //TODO:　　　　　↓
+        //TODO:ランダムでpushedField[i][j] = "×"にする。
         while (!isSetMineCompleted) {
             // pushedField、mineCountをリセット
             pushedField = new String[pushedField.length][pushedField.length];
@@ -33,7 +42,7 @@ public class MineService {
             for (int row_i = 0; row_i < pushedField.length; row_i++) {
                 for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
                     //40%で"×"
-                    if (random.nextInt(100) < 40) {
+                    if (random.nextInt(100) < 35) {
                         pushedField[row_i][column_i] = "×";
                     } else {
                         pushedField[row_i][column_i] = "　";
@@ -49,8 +58,8 @@ public class MineService {
             }
             //25~30%の確率で"×"
             int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
-            int maxMineLimit = (int) Math.round(fieldSize * 0.35);
-            int minMineLimit = (int) Math.round(fieldSize * 0.25);
+            int maxMineLimit = (int) Math.round(fieldSize * 0.30);
+            int minMineLimit = (int) Math.round(fieldSize * 0.20);
             if (minMineLimit <= mineCount && mineCount <= maxMineLimit) {
                 isSetMineCompleted = true;
                 System.out.println(mineCount);

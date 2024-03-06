@@ -93,21 +93,39 @@
   function clickNormal(value) {
     alert(value);
   }
-</script>-->
-
+</script>
+style="${'max-width:'+ (session.fieldSize-2)*session.cellSize +'px'}"-->
+<button style="border: 2px solid #999999">Click Me</button>
 
 
 <div class="container text-center"style="max-width: 600px;">
   <div class="row g-0 gx-0 row-cols-20">
     <th:block th:each="row, rowIndex : ${#numbers.sequence(1, 20)}">
-      <div class="row"  style="padding:5; flex-wrap: nowrap">
+      <div class="row"  style=" flex-wrap: nowrap">
         <th:block th:each="col, colIndex : ${#numbers.sequence(1, 20)}">
-          <div class="col d-flex justify-content-center align-items-center" style="width:calc(100% / 20); padding: 0; min-width: 30px; min-height: 30px;">
+          <div class="col d-flex justify-content-center align-items-center" style="width:30px;height: 30px; padding: 0; ">
             <button type="button"  style="width:30px;height:30px;padding: 0;"></button>
           </div>
         </th:block>
       </div>
     </th:block>
+  </div>
+</div>
+
+<div class="container text-center" style="max-width: 600px;">
+    <div class="row g-0 gx-0 row-cols-20">
+      <th:block th:each=" row, ix : ${#numbers.sequence(1, 20)}">
+        <div class="row"  style=" flex-wrap: nowrap">
+          <th:block th:each="col, jx : ${#numbers.sequence(1, 20)}">
+            <div
+              class="col d-flex justify-content-center align-items-center"
+              style="width:30px;height: 30px; padding: 0; ">
+              <button type="button" style="width: 30px; height: 30px; padding: 0"></button>
+            </div>
+          </th:block>
+        </div>
+      </th:block>
+    </div>
   </div>
 </div>
 

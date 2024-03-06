@@ -21,7 +21,8 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    public static final int FIELD_SIZE = 6;
+    public static final int FIELD_SIZE = 8;//2以下はNG
+    public static final int CELL_SIZE = 35;
 
     private static final String CELL_STATUS = "cellStatus";
     private static final String PUSHED_FIELD = "pushedField";
@@ -36,6 +37,7 @@ public class MineController {
     public String mine(HttpSession session, Model model) {
         //初期値をsessionに詰める
         session.setAttribute("fieldSize", FIELD_SIZE);
+        session.setAttribute("cellSize", CELL_SIZE);
         session.setAttribute(IS_FIRST_CLICK_COMPLETED, false);
         session.setAttribute(IS_GAME_FINISHED, false);
 
