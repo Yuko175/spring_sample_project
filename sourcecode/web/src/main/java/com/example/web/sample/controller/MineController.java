@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    public static final int FIELD_SIZE = 8;//2以下はNG
+    public static final int FIELD_SIZE = 7;//6以下はNG
     public static final int CELL_SIZE = 35;
 
     private static final String CELL_STATUS = "cellStatus";
@@ -68,7 +68,7 @@ public class MineController {
         String[][] oldPushedField = (String[][]) session.getAttribute(PUSHED_FIELD);
         String[][] newPushedField = new String[FIELD_SIZE][FIELD_SIZE];
         if (!isFirstClickCompleted) {
-            newPushedField = mineService.makePushedField(oldPushedField);
+            newPushedField = mineService.makePushedField(position, oldPushedField);
             session.setAttribute(PUSHED_FIELD, newPushedField);
             session.setAttribute(IS_FIRST_CLICK_COMPLETED, true);
         } else {

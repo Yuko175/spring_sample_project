@@ -21,50 +21,9 @@ public class MineService {
     }
 
     //地雷の裏表示
-    public String[][] makePushedField(String[][] pushedField) {
-        return makeMineField(pushedField);
-    }
-
-    //地雷の裏表示(地雷"×"、その他"⚪︎")
-    private String[][] makeMineField(String[][] pushedField) {
-        boolean isSetMineCompleted = false;
-        int mineCount = 0;
-        Random random = new Random();
-        //TODO:・すでに "×"がある場合
-        //TODO:・row_i == 0 || row_i == pushedField.length - 1 || column_i == 0   || column_i == pushedField.length - 1の場合
-        //TODO:・positionの周り8マスである場合
-        //TODO:　　　　　↓
-        //TODO:ランダムでpushedField[i][j] = "×"にする。
-        while (!isSetMineCompleted) {
-            // pushedField、mineCountをリセット
-            pushedField = new String[pushedField.length][pushedField.length];
-            mineCount = 0;
-            for (int row_i = 0; row_i < pushedField.length; row_i++) {
-                for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
-                    //40%で"×"
-                    if (random.nextInt(100) < 35) {
-                        pushedField[row_i][column_i] = "×";
-                    } else {
-                        pushedField[row_i][column_i] = "　";
-                    }
-                    if (row_i == 0 || row_i == pushedField.length - 1 || column_i == 0
-                            || column_i == pushedField.length - 1) {
-                        pushedField[row_i][column_i] = "　";
-                    }
-                    if (pushedField[row_i][column_i].equals("×")) {
-                        mineCount++;
-                    }
-                }
-            }
-            //25~30%の確率で"×"
-            int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
-            int maxMineLimit = (int) Math.round(fieldSize * 0.30);
-            int minMineLimit = (int) Math.round(fieldSize * 0.20);
-            if (minMineLimit <= mineCount && mineCount <= maxMineLimit) {
-                isSetMineCompleted = true;
-                System.out.println(mineCount);
-            }
-        }
+    public String[][] makePushedField(String value, String[][] pushedField) {
+        //地雷の裏表示(地雷"×"、その他"⚪︎")
+        String[][] newPushedField = makeMineField(value, pushedField);
 
         //数字の計算
         int[][] numberField = new int[pushedField.length][pushedField.length];
@@ -74,10 +33,49 @@ public class MineService {
         for (int row_i = 0; row_i < numberField.length; row_i++) {
             for (int column_i = 0; column_i < numberField[row_i].length; column_i++) {
                 if (numberField[row_i][column_i] > 0) {
-                    pushedField[row_i][column_i] = Integer.toString(numberField[row_i][column_i]);
+                    newPushedField[row_i][column_i] = Integer.toString(numberField[row_i][column_i]);
                 }
             }
         }
+        return newPushedField;
+    }
+
+    //地雷の裏表示(地雷"×"、その他"⚪︎")
+    private String[][] makeMineField(String value, String[][] pushedField) {
+        Random random = new Random();
+        int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
+        int totalMineCount = (int) Math.round(fieldSize * 0.30);
+        int mineCount = 0;
+        while (mineCount < totalMineCount) {
+            int randomRow = random.nextInt(pushedField.length - 2) + 1;
+            int randomCol = random.nextInt(pushedField.length - 2) + 1;
+            int row = Integer.parseInt(value.split("_")[0]);
+            int column = Integer.parseInt(value.split("_")[1]);
+            if (pushedField[randomRow][randomCol] != "×" &&
+                    !(row == randomRow && column == randomCol) &&
+                    !(row == randomRow && column == randomCol + 1) &&
+                    !(row == randomRow && column == randomCol - 1) &&
+                    !(row == randomRow + 1 && column == randomCol) &&
+                    !(row == randomRow - 1 && column == randomCol) &&
+                    !(row == randomRow + 1 && column == randomCol + 1) &&
+                    !(row == randomRow - 1 && column == randomCol - 1) &&
+                    !(row == randomRow + 1 && column == randomCol - 1) &&
+                    !(row == randomRow - 1 && column == randomCol + 1)) {
+                pushedField[randomRow][randomCol] = "×";
+                mineCount++;
+            }
+        }
+        for (int row_i = 0; row_i < pushedField.length; row_i++) {
+                for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                    if (pushedField[row_i][column_i] != "×") {
+                        pushedField[row_i][column_i] = "　";
+                    }
+                    if (row_i == 0 || row_i == pushedField.length - 1 || column_i == 0
+                            || column_i == pushedField.length - 1) {
+                        pushedField[row_i][column_i] = "　";
+                    }
+                }
+            }
         return pushedField;
 
     }
