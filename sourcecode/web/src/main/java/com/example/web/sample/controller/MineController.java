@@ -21,13 +21,14 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    public static final int FIELD_SIZE = 7;//6以下はNG
+    public static final int FIELD_SIZE = 15;//6以下はNG
     public static final int CELL_SIZE = 35;
 
     private static final String CELL_STATUS = "cellStatus";
     private static final String PUSHED_FIELD = "pushedField";
     private static final String IS_FIRST_CLICK_COMPLETED = "isFirstClickCompleted";
     private static final String IS_GAME_FINISHED = "isGameFinished";
+    private static final String GAME_STATUS = "gameStatus";
 
 
     @Autowired
@@ -49,6 +50,8 @@ public class MineController {
         String[][] newCellStatus = mineService.setNormal(newMineDto.getCellStatus());
         newMineDto.setCellStatus(newCellStatus);
         session.setAttribute(CELL_STATUS, newMineDto.getCellStatus());
+        //GAME_STATUS
+        session.setAttribute(GAME_STATUS,newMineDto.getGameStatus() );
 
         //Dtoに詰める
         model.addAttribute("mineDto", newMineDto);
@@ -68,9 +71,13 @@ public class MineController {
         String[][] oldPushedField = (String[][]) session.getAttribute(PUSHED_FIELD);
         String[][] newPushedField = new String[FIELD_SIZE][FIELD_SIZE];
         if (!isFirstClickCompleted) {
+            //TODO:putflagを行うたびにmineService.makePushedFieldが行われる
+            //TODO:マス目が大きくなった時に処理が重くなる可能性あり
             newPushedField = mineService.makePushedField(position, oldPushedField);
-            session.setAttribute(PUSHED_FIELD, newPushedField);
-            session.setAttribute(IS_FIRST_CLICK_COMPLETED, true);
+            if (param.equals("openCell")){
+                session.setAttribute(PUSHED_FIELD, newPushedField);
+                session.setAttribute(IS_FIRST_CLICK_COMPLETED, true);
+            }
         } else {
             //変更がなければ変更せずにそのままsetする
             newPushedField = oldPushedField;
@@ -91,6 +98,9 @@ public class MineController {
                 newCellStatus = mineService.removeFlag(position, oldCellStatus);
                 break;
         }
+        //空白マスが空いた時のcellStatusの更新
+        newCellStatus = mineService.pushedBlankOpenAround(position, newPushedField, newCellStatus);
+
         forUpdateMineDto.setCellStatus(newCellStatus);
         session.setAttribute(CELL_STATUS, forUpdateMineDto.getCellStatus());
 
@@ -98,8 +108,9 @@ public class MineController {
         model.addAttribute("mineDto", forUpdateMineDto);
 
         //終了判定
-        String newGameStatus = forUpdateMineDto.getGameStatus();
-        forUpdateMineDto.setGameStatus(mineService.checkGameStatus(newPushedField,newCellStatus,newGameStatus));
+        String newGameStatus = (String) session.getAttribute(GAME_STATUS);
+        forUpdateMineDto.setGameStatus(mineService.checkGameStatus(newPushedField, newCellStatus, newGameStatus));
+        session.setAttribute(GAME_STATUS,forUpdateMineDto.getGameStatus() );
 
         return "sample/mine";
     }

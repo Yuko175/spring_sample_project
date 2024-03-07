@@ -25,6 +25,9 @@
 
           <br />
           <div th:text="*{gameStatus}"></div>
+          <a th:if="*{gameStatus} != 'play'" href="/sample/mine">
+            <input class="btn btn-primary" type="button" value=" リトライ " />
+          </a>
           <div
             class="container text-center"
             th:style="${'max-width:'+ (session.fieldSize * session.cellSize) + 'px; max-height:'+ (session.fieldSize * session.cellSize) +'px; padding: 0;'}">
@@ -82,41 +85,36 @@
                 </div>
               </th:block>
             </div>
-          </div>
 
-          <!--
-          <div>押したか↓</div>
-          <div class="container text-center">
+            <div
+            class="container text-center"
+            th:style="${'max-width:'+ (session.fieldSize * session.cellSize) + 'px; max-height:'+ (session.fieldSize * session.cellSize) +'px; padding: 0;'}">
             <div th:class="${'row g-0 gx-0 row-cols-' + session.fieldSize}">
-              <div th:each="continet,ix : *{cellStatus}">
-                <div th:each="con,jx : ${continet}">
-                  <button
-                    th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px'}"
-                    class="btn btn-primary rounded-0"
-                    type="submit"
-                    name="position"
-                    th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
-                    th:text="*{cellStatus[__${jx.index}__][__${ix.index}__]}"></button>
+              <th:block th:each=" row, ix : *{pushedField}">
+                <div class="row" style="flex-wrap: nowrap">
+                  <th:block th:each="col, jx : ${row}">
+                    <div
+                      class="col d-flex justify-content-center align-items-center"
+                      th:style="${'width:'+ session.cellSize + 'px; height:'+ session.cellSize + 'px; padding: 0;'}">
+                      <div th:if="${ix.index != 0 and ix.index != session.fieldSize-1 and jx.index != 0 and jx.index != session.fieldSize-1}">
+                        <!--裏-->
+                          <button
+                            th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px'}"
+                            class="btn btn-outline-success rounded-0"
+                            th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
+                            th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
+                            disabled>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </th:block>
                 </div>
-              </div>
+              </th:block>
             </div>
-          </div>
 
-          <div>裏画面↓</div>
-          <div class="container text-center">
-            <div th:class="${'row g-0 gx-0 row-cols-' + session.fieldSize}">
-              <div th:each="continet,ix : *{cellStatus}">
-                <div th:each="con,jx : ${continet}">
-                  <button
-                    style="height: 30px; width: 40px; font-size: 14px"
-                    class="btn btn-primary rounded-0"
-                    type="submit"
-                    name="position"
-                    th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"></button>
-                </div>
-              </div>
-            </div>
-          </div>-->
+
+          </div>
         </div>
       </div>
     </div>
