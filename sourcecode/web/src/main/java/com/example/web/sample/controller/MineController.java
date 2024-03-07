@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    public static final int FIELD_SIZE = 15;//6以下はNG
+    public static final int FIELD_SIZE = 7;//6以下はNG
     public static final int CELL_SIZE = 35;
 
     private static final String CELL_STATUS = "cellStatus";
@@ -108,10 +108,19 @@ public class MineController {
         model.addAttribute("mineDto", forUpdateMineDto);
 
         //終了判定
-        String newGameStatus = (String) session.getAttribute(GAME_STATUS);
-        forUpdateMineDto.setGameStatus(mineService.checkGameStatus(newPushedField, newCellStatus, newGameStatus));
-        session.setAttribute(GAME_STATUS,forUpdateMineDto.getGameStatus() );
+        String oldGameStatus = (String) session.getAttribute(GAME_STATUS);
+        String newGameStatus = mineService.checkGameStatus(newPushedField, newCellStatus, oldGameStatus);
+        forUpdateMineDto.setGameStatus(newGameStatus);
+        session.setAttribute(GAME_STATUS, forUpdateMineDto.getGameStatus());
 
+        //クリア後判定
+        if (newGameStatus.equals("gameClear")){
+            for (int row_i = 0; row_i < newCellStatus.length; row_i++) {
+                for (int column_i = 0; column_i < newCellStatus[row_i].length; column_i++) {
+                    newCellStatus[row_i][column_i] = "pushed";
+                }
+            }
+        }
         return "sample/mine";
     }
 }

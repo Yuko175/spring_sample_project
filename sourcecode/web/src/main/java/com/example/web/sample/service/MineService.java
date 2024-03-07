@@ -45,7 +45,7 @@ public class MineService {
     private String[][] makeMineField(String value, String[][] pushedField) {
         Random random = new Random();
         int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
-        int totalMineCount = (int) Math.round(fieldSize * 0.20);
+        int totalMineCount = (int) Math.round(fieldSize * 0.20);//20%
         int mineCount = 0;
         while (mineCount < totalMineCount) {
             int randomRow = random.nextInt(pushedField.length - 2) + 1;
@@ -66,17 +66,18 @@ public class MineService {
                 mineCount++;
             }
         }
+        //"×"以外と外側1周空白
         for (int row_i = 0; row_i < pushedField.length; row_i++) {
-                for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
-                    if (pushedField[row_i][column_i] != "×") {
-                        pushedField[row_i][column_i] = "　";
-                    }
-                    if (row_i == 0 || row_i == pushedField.length - 1 || column_i == 0
-                            || column_i == pushedField.length - 1) {
-                        pushedField[row_i][column_i] = "　";
-                    }
+            for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
+                if (pushedField[row_i][column_i] != "×") {
+                    pushedField[row_i][column_i] = "　";
+                }
+                if (row_i == 0 || row_i == pushedField.length - 1 || column_i == 0
+                        || column_i == pushedField.length - 1) {
+                    pushedField[row_i][column_i] = "　";
                 }
             }
+        }
         return pushedField;
 
     }
@@ -85,15 +86,14 @@ public class MineService {
     private int[][] makeNumberField(String[][] pushedField,int[][] numberField ) {
         for (int row_i = 0; row_i < pushedField.length; row_i++) {
             for (int column_i = 0; column_i < pushedField[row_i].length; column_i++) {
-                if (pushedField[row_i][column_i].equals("×")) {
-                    numberField[row_i][column_i + 1]++;
-                    numberField[row_i][column_i - 1]++;
-                    numberField[row_i - 1][column_i]++;
-                    numberField[row_i + 1][column_i]++;
-                    numberField[row_i + 1][column_i + 1]++;
-                    numberField[row_i + 1][column_i - 1]++;
-                    numberField[row_i - 1][column_i + 1]++;
-                    numberField[row_i - 1][column_i - 1]++;
+                //8方向に数字を足す
+                int[][] moveCell = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+                for (int[] move : moveCell) {
+                    int newRow = row_i + move[0];
+                    int newCol = column_i + move[1];
+                    if(pushedField[row_i][column_i].equals("×")){
+                        numberField[newRow][newCol]++;
+                    }
                 }
             }
         }
@@ -143,37 +143,15 @@ public class MineService {
             newPushedField[row][column].equals("　") &&
             newCellStatus[row][column].equals("pushed")
         ) {
-            if (!newCellStatus[row][column + 1].equals("pushed")) {
-                newCellStatus[row][column + 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row) + "_" + (column + 1), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row][column - 1].equals("pushed")) {
-                newCellStatus[row][column - 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row) + "_" + (column - 1), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row + 1][column].equals("pushed")) {
-                newCellStatus[row + 1][column] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row + 1) + "_" + (column), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row - 1][column].equals("pushed")) {
-                newCellStatus[row - 1][column] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row - 1) + "_" + (column), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row + 1][column + 1].equals("pushed")) {
-                newCellStatus[row + 1][column + 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row + 1) + "_" + (column + 1), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row + 1][column - 1].equals("pushed")) {
-                newCellStatus[row + 1][column - 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row + 1) + "_" + (column - 1), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row - 1][column + 1].equals("pushed")) {
-                newCellStatus[row - 1][column + 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row - 1) + "_" + (column + 1), newPushedField, newCellStatus);
-            }
-            if (!newCellStatus[row - 1][column - 1].equals("pushed")) {
-                newCellStatus[row - 1][column - 1] = "pushed";
-                newCellStatus = pushedBlankOpenAround((row - 1) + "_" + (column - 1), newPushedField, newCellStatus);
+            //8方向の確認
+            int[][] moveCell = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+            for (int[] move : moveCell) {
+                int newRow = row + move[0];
+                int newColumn = column + move[1];
+                if (!newCellStatus[newRow][newColumn].equals("pushed")) {
+                    newCellStatus[newRow][newColumn] = "pushed";
+                    newCellStatus = pushedBlankOpenAround(newRow + "_" + newColumn, newPushedField, newCellStatus);
+                }
             }
         }
         return newCellStatus;
@@ -207,7 +185,6 @@ public class MineService {
         if (gameStatus != "gameOver" && safeFieldCount == pushCount) {
             gameStatus = "gameClear";
         }
-
         return gameStatus;
     }
 }
