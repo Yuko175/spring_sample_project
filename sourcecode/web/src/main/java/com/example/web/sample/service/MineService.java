@@ -4,6 +4,8 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.example.web.sample.controller.MineController;
+
 @Service
 public class MineService {
     //! 初期値normalの設定
@@ -45,7 +47,7 @@ public class MineService {
     private String[][] makeMineField(String value, String[][] pushedField) {
         Random random = new Random();
         int fieldSize = (int) Math.pow(pushedField.length - 2, 2);
-        int totalMineCount = (int) Math.round(fieldSize * 0.20);//20%
+        int totalMineCount = (int) Math.round(fieldSize * MineController.MINE_PROBABILITY);
         int mineCount = 0;
         while (mineCount < totalMineCount) {
             int randomRow = random.nextInt(pushedField.length - 2) + 1;
@@ -137,14 +139,13 @@ public class MineService {
         int row = Integer.parseInt(value.split("_")[0]);
         int column = Integer.parseInt(value.split("_")[1]);
         if (row > 0 &&
-            row < newPushedField.length - 1 &&
-            column > 0 &&
-            column < newPushedField.length - 1 &&
-            newPushedField[row][column].equals("　") &&
-            newCellStatus[row][column].equals("pushed")
-        ) {
+                row < newPushedField.length - 1 &&
+                column > 0 &&
+                column < newPushedField.length - 1 &&
+                newPushedField[row][column].equals("　") &&
+                newCellStatus[row][column].equals("pushed")) {
             //8方向の確認
-            int[][] moveCell = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+            int[][] moveCell = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, 1 }, { 1, -1 }, { -1, 1 }, { -1, -1 } };
             for (int[] move : moveCell) {
                 int newRow = row + move[0];
                 int newColumn = column + move[1];
@@ -155,6 +156,22 @@ public class MineService {
             }
         }
         return newCellStatus;
+    }
+
+
+    public int calcRemainingFlags(String[][] cellStatus, int allFlags) {
+        int flagCount = 0;
+        for (int row_i = 0; row_i < cellStatus.length; row_i++) {
+            for (int column_i = 0; column_i < cellStatus[row_i].length; column_i++) {
+                if(cellStatus[row_i][column_i].equals("flag")){
+                    flagCount++;
+                }
+
+            }
+        }
+        int remainingFlags = allFlags - flagCount;
+
+        return remainingFlags;
     }
 
 

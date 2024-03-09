@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.web.sample.controller.MineController;
 
 
 @Getter
@@ -16,4 +15,5 @@ public class MineDto {
     private String[][] pushedField;
     private String[][] cellStatus;
     private String gameStatus = "play";
+    private int remainingFlags;
 }

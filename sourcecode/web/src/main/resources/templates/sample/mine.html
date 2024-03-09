@@ -23,16 +23,21 @@
           <br />
           <h2>マインスイーパー</h2>
           <div th:if="${session.fieldSize} == ${session.levelBasic}">
-            <button class="btn btn-success" style="font-size: 14px" th:value="${session.levelBasic}" th:text="初級" onclick="changeLevel(value)"></button>
+            <button
+              class="btn btn-success"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
+              th:value="${session.levelBasic}"
+              th:text="初級"
+              onclick="changeLevel(value)"></button>
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelStandard}"
               th:text="中級"
               onclick="changeLevel(value)"></button>
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelAdvance}"
               th:text="上級"
               onclick="changeLevel(value)"></button>
@@ -40,14 +45,19 @@
           <div th:if="${session.fieldSize} == ${session.levelStandard}">
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelBasic}"
               th:text="初級"
               onclick="changeLevel(value)"></button>
-            <button class="btn btn-success" style="font-size: 14px" th:value="${session.levelStandard}" th:text="中級" onclick="changeLevel(value)"></button>
+            <button
+              class="btn btn-success"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
+              th:value="${session.levelStandard}"
+              th:text="中級"
+              onclick="changeLevel(value)"></button>
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelAdvance}"
               th:text="上級"
               onclick="changeLevel(value)"></button>
@@ -55,17 +65,22 @@
           <div th:if="${session.fieldSize} == ${session.levelAdvance}">
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelBasic}"
               th:text="初級"
               onclick="changeLevel(value)"></button>
             <button
               class="btn btn-outline-secondary"
-              style="font-size: 14px"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
               th:value="${session.levelStandard}"
               th:text="中級"
               onclick="changeLevel(value)"></button>
-            <button class="btn btn-success" style="font-size: 14px" th:value="${session.levelAdvance}" th:text="上級" onclick="changeLevel(value)"></button>
+            <button
+              class="btn btn-success"
+              th:style="${'font-size: '+  session.fontSize + 'px'}"
+              th:value="${session.levelAdvance}"
+              th:text="上級"
+              onclick="changeLevel(value)"></button>
           </div>
           <div
             class="container text-center"
@@ -81,7 +96,7 @@
                         <!--表-->
                         <button
                           th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='normal'"
-                          th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px; border: 1px solid #8fbc8f'}"
+                          th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: ' +  session.fontSize + 'px; border: 1px solid #8fbc8f'}"
                           class="btn btn-success rounded-0"
                           name="position"
                           th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
@@ -92,7 +107,7 @@
                         <div th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]}=='pushed'">
                           <button
                             th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} != '×' "
-                            th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px'}"
+                            th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: ' +  session.fontSize + 'px'}"
                             class="btn btn-outline-success rounded-0"
                             th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
                             th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
@@ -100,7 +115,7 @@
                           <!--裏：地雷-->
                           <button
                             th:if="*{pushedField[__${jx.index}__][__${ix.index}__]} == '×' "
-                            th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px'}"
+                            th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: ' +  session.fontSize + 'px'}"
                             class="btn btn-danger rounded-0"
                             th:value="${__${jx.index}__ + '_' + __${ix.index}__}"
                             th:text="*{pushedField[__${jx.index}__][__${ix.index}__]}"
@@ -110,7 +125,7 @@
                         <button
                           th:if="*{cellStatus[__${jx.index}__][__${ix.index}__]} =='flag'"
                           id="flagCell"
-                          th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: 14px'}"
+                          th:style="${'height:' + session.cellSize + 'px; width:' + session.cellSize + 'px; padding: 0; font-size: ' +  session.fontSize + 'px'}"
                           class="btn btn-warning rounded-0"
                           type="submit"
                           name="position"
@@ -126,16 +141,34 @@
             </div>
           </div>
 
+          <div class="container text-center" th:style="'max-width:' + ${session.cellSize * 3} + 'px; min-width:' + ${session.cellSize * 3} + 'px; padding: 0'">
+            <div style="float: left; width: 33%" class="d-flex justify-content-center align-items-center">
+              <button
+                th:style="'height:' + ${session.cellSize} + 'px; width:' + ${session.cellSize} + 'px; padding: 0; font-size: ' + ${session.fontSize} + 'px; background-color: #FFC009'"
+                th:text="？"></button>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center"
+              th:style="'height:' + ${session.cellSize} + 'px; width:' + ${session.cellSize} + 'px; padding: 0; font-size: ' + ${session.fontSize} + 'px; float: left; width: 33%'">
+              <span th:text="："></span>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center"
+              th:style="'height:' + ${session.cellSize} + 'px; width:' + ${session.cellSize} + 'px; padding: 0; font-size: ' + ${session.fontSize} + 'px; float: left; width: 33%'">
+              <span th:text="*{remainingFlags}"></span>
+            </div>
+            <div style="clear: both"></div>
+          </div>
+          <br />
           <div th:if="*{gameStatus} == 'gameClear'" th:text="クリア成功！おめでとう！！"></div>
           <div th:if="*{gameStatus} == 'gameOver'" th:text="クリア失敗...もう一度挑戦しよう！"></div>
-          <br />
+
           <button
             th:if="*{gameStatus} != 'play'"
             class="btn btn-primary"
             th:value="${session.fieldSize}"
             th:text="リトライ"
             onclick="changeLevel(value)"></button>
-          <!--<div th:text="*{gameStatus}"></div>-->
         </div>
       </div>
     </div>

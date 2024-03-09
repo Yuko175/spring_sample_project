@@ -23,18 +23,27 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("sample/mine")
 public class MineController {
 
-    //public static final int FIELD_SIZE = 7;//6以下はNG
-    public static final int CELL_SIZE = 35;
+    //マス目の大きさ(px)
+    public static final int CELL_SIZE = 30;
+    public static final int FONT_SIZE = 16;
+
+    //地雷の出現確率(端数四捨五入)
+    public static final double MINE_PROBABILITY = 0.2;//20%
+
+    //難易度別のマスの一辺
     public static final int LEVEL_BASIC = 7;
     public static final int LEVEL_STANDARD = 10;
     public static final int LEVEL_ADVANCE = 13;
 
+    //変数名を間違えないように定義(セッションに登録する名前)
     private static final String FIELD_SIZE = "fieldSize";
     private static final String CELL_STATUS = "cellStatus";
     private static final String PUSHED_FIELD = "pushedField";
+    private static final String GAME_STATUS = "gameStatus";
     private static final String IS_FIRST_CLICK_COMPLETED = "isFirstClickCompleted";
     private static final String IS_GAME_FINISHED = "isGameFinished";
-    private static final String GAME_STATUS = "gameStatus";
+    private static final String All_FLAGS = "allFlags";
+
 
     @Autowired
     private MineService mineService;
@@ -43,6 +52,7 @@ public class MineController {
     public String mine(HttpSession session, Model model) {
         //初期値をsessionに詰める
         session.setAttribute("cellSize", CELL_SIZE);
+        session.setAttribute("fontSize", FONT_SIZE);
         session.setAttribute("levelBasic", LEVEL_BASIC);
         session.setAttribute("levelStandard", LEVEL_STANDARD);
         session.setAttribute("levelAdvance", LEVEL_ADVANCE);
@@ -65,6 +75,11 @@ public class MineController {
         session.setAttribute(CELL_STATUS, newMineDto.getCellStatus());
         //GAME_STATUS
         session.setAttribute(GAME_STATUS, newMineDto.getGameStatus());
+        //REMAINING_FLAGS
+        int allFlags = (int) Math.round((int) Math.pow(fieldSize - 2, 2) * MineController.MINE_PROBABILITY);
+        newMineDto.setRemainingFlags(allFlags);
+        session.setAttribute(All_FLAGS, newMineDto.getRemainingFlags());
+
 
         //Dtoに詰める
         model.addAttribute("mineDto", newMineDto);
@@ -91,6 +106,7 @@ public class MineController {
     private void changeLevel(HttpSession session, String position, Model model) {
         //初期値をsessionに詰める
         session.setAttribute("cellSize", CELL_SIZE);
+        session.setAttribute("fontSize", FONT_SIZE);
         session.setAttribute(IS_FIRST_CLICK_COMPLETED, false);
         session.setAttribute(IS_GAME_FINISHED, false);
 
@@ -110,6 +126,10 @@ public class MineController {
         session.setAttribute(CELL_STATUS, newMineDto.getCellStatus());
         //GAME_STATUS
         session.setAttribute(GAME_STATUS, newMineDto.getGameStatus());
+        //REMAINING_FLAGS
+        int allFlags = (int) Math.round((int) Math.pow(fieldSize - 2, 2) * MineController.MINE_PROBABILITY);
+        newMineDto.setRemainingFlags(allFlags);
+        session.setAttribute(All_FLAGS, newMineDto.getRemainingFlags());
 
         //Dtoを返す
         model.addAttribute("mineDto", newMineDto);
@@ -162,6 +182,12 @@ public class MineController {
         newCellStatus = mineService.pushedBlankOpenAround(position, newPushedField, newCellStatus);
         forUpdateMineDto.setCellStatus(newCellStatus);
         session.setAttribute(CELL_STATUS, forUpdateMineDto.getCellStatus());
+
+        //残りの旗数を計算
+        int allFlags =(int)session.getAttribute(All_FLAGS);
+        int newRemainingFlags = mineService.calcRemainingFlags(newCellStatus, allFlags);
+        forUpdateMineDto.setRemainingFlags(newRemainingFlags);
+
 
         //終了判定
         String oldGameStatus = (String) session.getAttribute(GAME_STATUS);
