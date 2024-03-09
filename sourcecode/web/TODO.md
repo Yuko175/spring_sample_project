@@ -64,9 +64,10 @@
 - ブランチを分ける
 
 - 中身を見れる(開けない)
+
 - ライフ生成
 
-- ステージ
+- ~~ステージ~~
 
 - スコア/タイムとライフで生成
 
@@ -78,6 +79,8 @@
 </br>
 
 ## 質問リスト
+
+- session.fieldSizeでなぜ取れるのか？
 
 - forUpdateMineDto.setIsGameFinished()を書こうとしたら、　→　結論：使用していない
   forUpdateMineDto.setGameFinished()に置換された。なぜIsがなくてsetされるのか？

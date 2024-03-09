@@ -34,3 +34,8 @@ function removeFlag(position) {
   const form = createFormForPost(position, "removeFlag");
   form.submit();
 }
+
+function changeLevel(position) {
+  const form = createFormForPost(position, "changeLevel");
+  form.submit();
+}
